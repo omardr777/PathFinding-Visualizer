@@ -1707,6 +1707,7 @@ window.onclick = function (event) {
             }
         }
     }
+
 }
 /**function recursiveBacktracker(grid, s, choices){
   if(s.length){
@@ -1759,3 +1760,5 @@ window.onclick = function (event) {
   }
   return neighbours;
 } */
+//test
+//test
