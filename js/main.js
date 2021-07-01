@@ -56,7 +56,7 @@ var selectedBtn2 = '';
 var cols = 63;
 var rows = 22;
 var delay = 0;
-var delay_time = 2;
+var delay_time = 8;
 var grid = new Array(cols);
 
 var sStartSpot;
@@ -241,7 +241,7 @@ runBtn.addEventListener('click', () => {
     }
 })
 gridMazeBtn.addEventListener('click', () => finishAlgoS = false);
-fastSpeed.addEventListener('click', () => delay_time = 7)
+fastSpeed.addEventListener('click', () => delay_time = 8)
 slowSpeed.addEventListener('click', () => delay_time = 50)
 gridMazeBtn.addEventListener('click', mazeBTPlayer);
 splitBtn.addEventListener('click', () => {
