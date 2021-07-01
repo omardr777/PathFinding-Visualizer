@@ -91,12 +91,17 @@ nav{
     
     background-image: url(../startV2.png);
     border: 1px solid black;
+    animation-name: eands;
+    animation-duration: 0.4s; 
+
    
 }
 .end{
     
     background-image: url(../stopV2.png);
     border: 1px solid black;
+    animation-name: eands;
+    animation-duration: 0.4s; 
 }
 .closedSet{
   background-color: #49c6f0 ;
@@ -263,5 +268,17 @@ nav{
     100% {
       transform: scale(1);
       background-color: white;
+    }
+  }
+
+  @keyframes eands{
+    0%{
+      transform: scale(.5);
+    }
+    50%{
+      transform: scale(0.7);
+    }
+    100%{
+      transform: scale(1);
     }
   }
