@@ -89,13 +89,14 @@ nav{
 }
 .start{
     
-    background-image: url(../startP2.png);
+    background-image: url(../startV2.png);
+    border: 1px solid black;
    
 }
 .end{
     
-    background-image: url(../stopP.png);
-   
+    background-image: url(../stopV2.png);
+    border: 1px solid black;
 }
 .closedSet{
   background-color: #49c6f0 ;

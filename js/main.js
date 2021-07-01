@@ -977,6 +977,10 @@ function aStar(grid, divGrid, endSpot) {
         //closedSetD[0].className = "block start";
         path = [];
     }
+    if (hasSolution) {
+        // renderDiv(startDiv,'block start',delay_time);
+        // /startDiv.style.backgroundColor = '#ffd400';
+    }
     closedSetD.shift();
     finishAlgoS = true;
 }
