@@ -1707,7 +1707,7 @@ window.onclick = function (event) {
             }
         }
     }
-
+    //test2
 }
 /**function recursiveBacktracker(grid, s, choices){
   if(s.length){
