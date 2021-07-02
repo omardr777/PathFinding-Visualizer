@@ -213,26 +213,29 @@ nav{
     0% {
       transform: scale(.5);
       background-color: rgb(84, 81, 211);
-      border-radius: 10%;
+      border-radius: 50%;
     }
     50% {
         transform: scale(1.1);
       background-color: rgb(211, 209, 129) ;
+      border-radius: 30%;
     }
     100% {
       transform: scale(1);
       background-color: #49c6f0 ;
+
     }
   }
   @keyframes stretchB {
     0% {
       transform: scale(.3);
       background-color: blue !important;
-      border-radius: 10%;
+      border-radius: 50%;
     }
     50% {
         transform: scale(1.2);
       background-color: rgb(97, 131, 128);
+      border-radius: 30%;
     }
     100% {
       transform: scale(1);
