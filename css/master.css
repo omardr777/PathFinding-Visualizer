@@ -246,11 +246,12 @@ nav{
     0% {
       transform: scale(.3);
       background-color: white;
-      border-radius: 10%;
+      border-radius: 50%;
     }
     50% {
         transform: scale(1.2);
       background-color: rgb(95, 95, 95);
+      border-radius: 30%;
     }
     100% {
       transform: scale(1);
@@ -262,11 +263,13 @@ nav{
     0% {
       transform: scale(.5);
       background-color: white;
-      border-radius: 10%;
+      border-radius: 50%;
     }
     50% {
         transform: scale(1.1);
       background-color: white;
+      border-radius: 30%;
+
     }
     100% {
       transform: scale(1);
