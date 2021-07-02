@@ -89,7 +89,7 @@ nav{
 }
 .start{
     
-    background-image: url(../startV2.png);
+    background-image: url(../startV3.png);
     border: 1px solid black;
     animation-name: eands;
     animation-duration: 0.4s; 
@@ -98,7 +98,7 @@ nav{
 }
 .end{
     
-    background-image: url(../stopV2.png);
+    background-image: url(../stopV3.png);
     border: 1px solid black;
     animation-name: eands;
     animation-duration: 0.4s; 
