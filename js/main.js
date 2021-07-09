@@ -19,6 +19,7 @@ var splitBtn = document.getElementById("splitBtn");
 var algoDropBtn = document.getElementById('algoDropBtn');
 var splitAStarBtn = document.getElementById('splitAStar');
 var splitDijkstraBtn = document.getElementById('splitDijkstra');
+var splitDijkstraBtn2 = document.getElementById('splitDijkstra2');
 var splitBfs = document.getElementById('splitBfs');
 var splitAStarBtn2 = document.getElementById('splitAStar2');
 var splitBfs2 = document.getElementById('splitBfs2');
@@ -33,6 +34,7 @@ var splitBtbHasClicked = false;
 var splitAStarClicked = false;
 var splitAStarClicked2 = false;
 var splitDijkstraClicked = false;
+var splitDijkstraClicked2 = false;
 var splitBfsClicked = false;
 var splitBfsClicked2 = false;
 var splitDfsClicked = false;
@@ -190,7 +192,12 @@ openSetD.push(startDiv);
 aStarBtn.addEventListener('click', aStarPlayer);
 clearBtn.addEventListener('click', () => {
 
-    clearAlgo(grid);
+    if (splitBtbHasClicked) {
+        clearAlgo(sGrid1, sDGrid1, sStartSpot, sStartDiv1, sEndDiv1);
+        clearAlgo(sGrid2, sDGrid2, sStartSpot, sStartDiv2, sEndDiv2);
+    } else {
+        clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
+    }
 
 });
 mazeBtn.addEventListener('click', mazeNormal);
@@ -200,8 +207,8 @@ dijkstraBtn.addEventListener('click', dijkstraPlayer);
 bfsBtn.addEventListener('click', bfsPlayer);
 dfsBtn.addEventListener('click', dfsPlayer);
 runBtn.addEventListener('click', () => {
-    clearAlgo(sGrid1);
-    clearAlgo(sGrid2);
+    clearAlgo(sGrid1, sDGrid1, sStartSpot, sStartDiv, sEndDiv);
+    clearAlgo(sGrid2, sDGrid2, sStartSpot, sStartDiv2, sEndDiv2);
     switch (selectedBtn) {
         case "aStar":
             aStarPlayer();
@@ -227,7 +234,7 @@ runBtn.addEventListener('click', () => {
             break;
         case "dijkstra2":
             dijkstraPlayer();
-            span2.textContent = "   dijkstra";
+            span2.textContent = "   dijkstra2";
             break;
         case 'bfs2':
             bfsPlayer();
@@ -259,6 +266,7 @@ splitBtn.addEventListener('click', () => {
     runBtn.classList.toggle('unShow');
     selectedBtn2 = '';
     selectedBtn = '';
+    splitDijkstraClicked = false;
 
 });
 splitAStarBtn.addEventListener('click', () => {
@@ -272,9 +280,20 @@ splitAStarBtn.addEventListener('click', () => {
 splitDijkstraBtn.addEventListener('click', () => {
     selectedBtn = '';
     splitDijkstraClicked = true;
+    splitDijkstraClicked2 = false;
     console.log('clicked')
     selectedBtn = 'dijkstra';
     console.log(selectedBtn)
+
+    // dijkstraPlayer();
+});
+splitDijkstraBtn2.addEventListener('click', () => {
+    selectedBtn2 = '';
+    splitDijkstraClicked2 = true;
+    splitDijkstraClicked1 = false;
+    console.log('clicked')
+    selectedBtn2 = 'dijkstra2';
+    console.log(selectedBtn2)
 
     // dijkstraPlayer();
 });
@@ -364,6 +383,7 @@ splitBtn.addEventListener('click', () => {
     algoDropBtn.disabled = splitBtnClicked;
 });
 */
+
 var blocks = document.querySelectorAll(".block").forEach(item => {
     var tempIdString = item.id.split('-');
     var ii = parseInt(tempIdString[0]);
@@ -469,6 +489,7 @@ var blocks = document.querySelectorAll(".block").forEach(item => {
                 sDGrid1[ii][jj].className = 'block end';
                 sEndDiv2 = sDGrid2[ii][jj];
                 sDGrid2[ii][jj].className = 'block end';
+                sEndSpot.wall = false;
             }
             hasEndClicked = false;
         }
@@ -491,49 +512,161 @@ var blocks = document.querySelectorAll(".block").forEach(item => {
         if (item.className.includes("wallT")) {
             tempClassName = 'block wallT';
         }
+
+
         if (hasStartClicked) {
             item.className += " start";
             // if (hasStartClicked) {
             startSpot = grid[ii][jj];
             startDiv = divGrid[ii][jj];
-            sStartSpot = sGrid1[ii][jj];
-            sStartDiv = sDGrid1[ii][jj];
-            // sStartDiv2 = sDGrid2[ii][jj];
+            if (splitBtbHasClicked) {
+                sStartSpot = sGrid1[ii][jj];
+                sStartDiv = sDGrid1[ii][jj];
+                sStartDiv2 = sDGrid2[ii][jj];
+            }
+
+
             if (finishAlgoS) {
+
                 if (selectedBtn == 'aStar') {
+                    aStarFinish(sGrid1, sDGrid1, sEndSpot, sStartSpot, sStartDiv, sEndDiv);
+                }
+                //  else if (selectedBtn2 == 'aStar2') {
+                //     aStarFinish(sGrid2, sDGrid2, sEndSpot, sStartSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     aStarFinish(grid, divGrid, endSpot, startSpot, startDiv, endDiv);
 
-                    aStarFinish(sGrid1, sDGrid1, endSpot);
+            } if (finishAlgoD) {
+                if (selectedBtn == 'dijkstra') {
+                    dijkstraF(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
+                }
+                //  else if (selectedBtn2 == 'dijkstra2') {
+                //     dijkstraF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+            }
+            if (finishAlgoB) {
+                if (selectedBtn == 'bfs') {
+                    bfsF(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
+                }
+
+                // if (selectedBtn2 == 'bfs2') {
+                //     bfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+            }
+            if (finishAlgoDE) {
+                if (selectedBtn == 'dfs') {
+                    dfsF(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
+                }
+                // else if (selectedBtn2 == 'dfs2') {
+                //     dfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     dfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+            }
+            if (finishAlgoS) {
+                if (selectedBtn2 == 'aStar2') {
+                    aStarFinish(sGrid2, sDGrid2, sEndSpot, sStartSpot, sStartDiv2, sEndDiv2);
                 } else
-                    aStarFinish(grid, divGrid, endSpot);
-
-            } else if (finishAlgoD) {
-                dijkstraF(grid, divGrid, startSpot, endSpot);
+                    aStarFinish(grid, divGrid, endSpot, startSpot, startDiv, endDiv);
             }
-            else if (finishAlgoB) {
-                bfsF(grid, divGrid, startSpot, endSpot, startDiv);
+            if (finishAlgoD) {
+                if (selectedBtn2 == 'dijkstra2') {
+                    dijkstraF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                } else
+                    dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
             }
-            else if (finishAlgoDE) {
-                dfsF(grid, divGrid, startSpot, endSpot, startDiv);
+            if (finishAlgoB) {
+                if (selectedBtn2 == 'bfs2') {
+                    bfsF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                } else
+                    bfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+            }
+            if (finishAlgoDE) {
+                if (selectedBtn2 == 'dfs2') {
+                    dfsF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                } else
+                    dfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
             }
 
             //}
-        } else if (hasEndClicked) {
+        }
+
+        else if (hasEndClicked) {
             item.className += " end";
             endSpot = grid[ii][jj];
             endDiv = divGrid[ii][jj];
             endSpot.wall = false;
+            if (splitBtbHasClicked) {
+                sEndSpot = sGrid1[ii][jj];
+                sEndDiv = sDGrid1[ii][jj];
+                sEndDiv2 = sDGrid2[ii][jj];
+                sEndSpot.wall = false;
+                sGrid1[sEndSpot.i][sEndSpot.j].wall = false;
+                sGrid2[sEndSpot.i][sEndSpot.j].wall = false;
+            }
+
             if (finishAlgoS) {
 
-                aStarFinish(grid, divGrid, endSpot);
+                if (selectedBtn == 'aStar') {
+                    aStarFinish(sGrid1, sDGrid1, sEndSpot, sStartSpot, sStartDiv, sEndDiv);
+                }
+                //  else if (selectedBtn2 == 'aStar2') {
+                //     aStarFinish(sGrid2, sDGrid2, sEndSpot, sStartSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     aStarFinish(grid, divGrid, endSpot, startSpot, startDiv, endDiv);
 
-            } else if (finishAlgoD) {
-                dijkstraF(grid, divGrid, startSpot, endSpot);
+            } if (finishAlgoD) {
+                if (selectedBtn == 'dijkstra') {
+                    dijkstraF(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
+                }
+                //  else if (selectedBtn2 == 'dijkstra2') {
+                //     dijkstraF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
             }
-            else if (finishAlgoB) {
-                bfsF(grid, divGrid, startSpot, endSpot, startDiv);
+            if (finishAlgoB) {
+                if (selectedBtn == 'bfs') {
+                    bfsF(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
+                }
+
+                // if (selectedBtn2 == 'bfs2') {
+                //     bfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
             }
-            else if (finishAlgoDE) {
-                dfsF(grid, divGrid, startSpot, endSpot, startDiv);
+            if (finishAlgoDE) {
+                if (selectedBtn == 'dfs') {
+                    dfsF(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
+                }
+                // else if (selectedBtn2 == 'dfs2') {
+                //     dfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                // } else
+                //     dfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+            }
+            if (finishAlgoS) {
+                if (selectedBtn2 == 'aStar2') {
+                    aStarFinish(sGrid2, sDGrid2, sEndSpot, sStartSpot, sStartDiv2, sEndDiv2);
+                } else
+                    aStarFinish(grid, divGrid, endSpot, startSpot, startDiv, endDiv);
+            }
+            if (finishAlgoD) {
+                if (selectedBtn2 == 'dijkstra2') {
+                    dijkstraF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                } else
+                    dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+            }
+            if (finishAlgoB) {
+                if (selectedBtn2 == 'bfs2') {
+                    bfsF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                } else
+                    bfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+            }
+            if (finishAlgoDE) {
+                if (selectedBtn2 == 'dfs2') {
+                    dfsF(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+                } else
+                    dfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
             }
         }
 
@@ -542,6 +675,13 @@ var blocks = document.querySelectorAll(".block").forEach(item => {
 
         if (hasStartClicked || hasEndClicked) {
             item.className = tempClassName;
+            if (tempClassName.includes('wDiv')) {
+                grid[ii][jj].wall = true;
+                if (splitBtbHasClicked) {
+                    sGrid1[ii][jj].wall = true;
+                    sGrid2[ii][jj].wall = true;
+                }
+            }
         }
         // else if (hasEndClicked) {
         //     item.className = tempClassName;
@@ -704,13 +844,13 @@ function mazeNormal() {
 
     }
 }
-function clearAlgo(grid) {
+function clearAlgo(grid, divGrid, startSpot, startDiv, endDiv) {
 
     delay = 0;
     finished = false;
-    startDiv.className = 'block start';
-    sStartDiv.className = 'block start';
-
+    // startDiv.className = 'block start';
+    // sStartDiv.className = 'block start';
+    // sStartDiv2.className = 'block start';
     openSetD = [];
     openSet = [];
     closedSetD = [];
@@ -729,26 +869,42 @@ function clearAlgo(grid) {
 
     }
 
-    var pth = document.querySelectorAll('.pathDiv').forEach(item => {
-        item.className = ('block rDiv');
-    });
-    var pth = document.querySelectorAll('.closedSet').forEach(item => {
-        item.className = ('block rDiv');
-    });
-    var pth = document.querySelectorAll('.closedSetT').forEach(item => {
-        item.className = ('block rDiv');
-    });
-    var pth = document.querySelectorAll('.pathDivT').forEach(item => {
-        item.className = ('block rDiv');
-    });
+    // var pth = document.querySelectorAll('.pathDiv').forEach(item => {
+    //     item.className = ('block rDiv');
+    // });
+    // var pth = document.querySelectorAll('.closedSet').forEach(item => {
+    //     item.className = ('block rDiv');
+    // });
+    // var pth = document.querySelectorAll('.closedSetT').forEach(item => {
+    //     item.className = ('block rDiv');
+    // });
+    // var pth = document.querySelectorAll('.pathDivT').forEach(item => {
+    //     item.className = ('block rDiv');
+    // });
+    for (let i = 0; i < divGrid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            if (!divGrid[i][j].className.includes("w"))
+                divGrid[i][j].className = 'block rDiv';
 
-    if (splitBtbHasClicked) {
-        openSet.push(sStartSpot);
-        openSetD.push(sStartDiv);
-    } else {
-        openSetD.push(startDiv);
-        openSet.push(startSpot);
+
+        }
+
     }
+    startDiv.className = 'block start';
+    endDiv.className = 'block end';
+    openSet.push(startSpot);
+    openSetD.push(startDiv);
+    // divGrid.forEach(item => {
+    //     item.className = 'block rDiv';
+    // })
+
+    // if (splitBtbHasClicked) {
+    //     openSet.push(sStartSpot);
+    //     openSetD.push(sStartDiv);
+    // } else {
+    //     openSetD.push(startDiv);
+    //     openSet.push(startSpot);
+    // }
 }
 function stairMazrPlayer() {
     stairMaze(grid, divGrid);
@@ -836,30 +992,33 @@ function aStarPlayer() {
         openSet.push(sStartSpot);
         //openSetD = [];
         openSetD.push(sStartDiv);
-        aStar(sGrid1, sDGrid1, sEndSpot);
+        aStar(sGrid1, sDGrid1, sEndSpot, sStartSpot, sStartDiv, sEndDiv);
         splitAStarClicked = false;
     }
     else if (splitAStarClicked2) {
         openSet.push(sStartSpot);
         //openSetD = [];
         openSetD.push(sStartDiv2);
-        aStar(sGrid2, sDGrid2, sEndSpot);
+        aStar(sGrid2, sDGrid2, sEndSpot, sStartSpot, sStartDiv2, sEndDiv2);
         splitAStarClicked2 = false;
     }
     else
-        aStar(grid, divGrid, endSpot);
+        aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv);
 }
-function aStar(grid, divGrid, endSpot) {
+function aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
     // console.log(grid);
-    finishAlgoS = false;
-    finishAlgoD = false;
-    finishAlgoB = false;
-    finishAlgoDE = false;
+    if (!splitBtbHasClicked) {
+        finishAlgoS = false;
+        finishAlgoD = false;
+        finishAlgoB = false;
+        finishAlgoDE = false;
+
+    }
     // if (!splitAStarClicked1 || !splitAStarClicked2) {
     //     clearAlgo();
     // }
     //algoRunning = true;
-    clearAlgo(grid);
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
     while (openSet.length > 0) {
         var lowestF = 0;
         for (let i = 0; i < openSet.length; i++) {
@@ -877,6 +1036,7 @@ function aStar(grid, divGrid, endSpot) {
 
             return;
         }
+
         if (current == endSpot) {
             hasSolution = true;
             finished = true;
@@ -899,7 +1059,8 @@ function aStar(grid, divGrid, endSpot) {
             //closedSetD.shift();
             break;
         }
-
+        // renderDiv(openSetD[openSetD.length - 1], 'block pathDiv', delay_time)
+        // renderDiv(openSetD[openSetD.length - 1], 'block rDiv', delay_time)
         // openSet.reomve(current)
         remove(openSet, current);
         colsedSet.push(current);
@@ -973,6 +1134,7 @@ function aStar(grid, divGrid, endSpot) {
     //     renderDiv(openSetD[i], 'green');
 
     // }
+
     for (let i = 0; i < divPath.length; i++) {
 
         renderDiv(divPath[i], 'block pathDiv', delay_time);
@@ -994,9 +1156,17 @@ function aStar(grid, divGrid, endSpot) {
     finishAlgoS = true;
     console.log(finishAlgoS)
 }
-function aStarFinish(grid, divGrid, endSpot) {
-    clearAlgo(grid);
+function aStarFinish(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
     //algoRunning = true;
+    startSpot.previous = undefined;
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].previous = undefined;
+
+        }
+
+    }
     while (openSet.length > 0) {
         var lowestF = 0;
         for (let i = 0; i < openSet.length; i++) {
@@ -1088,48 +1258,55 @@ function aStarFinish(grid, divGrid, endSpot) {
     for (let i = 0; i < divPath.length; i++) {
         divPath[i].className = 'block pathDivT';
     }
+    finishAlgoS = true;
+    startSpot.previous = undefined;
 }
 function dijkstraPlayer() {
     algoRunning = true;
-    console.log('dijkstraPlayer')
-    if (splitDijkstraClicked) {
-        //cols = cols / 3;
-        console.log(cols);
-        console.log('dijkstraPlayer2')
-        dijkstra(sGrid1, sDGrid1, sStartSpot, sEndSpot); splitDijkstraBtn = false;
 
+    if (splitDijkstraClicked) {
+        dijkstra(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv); splitDijkstraBtn = false;
+
+    }
+    else if (splitDijkstraClicked2) {
+        dijkstra(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
     } else
-        dijkstra(grid, divGrid, startSpot, endSpot);
+        dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
 
     algoRunning = false;
 
 }
-function dijkstra(grid, divGrid, startSpot, endSpot) {
+function dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     var finishDij = false;
-    finishAlgoS = false;
-    finishAlgoD = false;
-    finishAlgoB = false;
-    finishAlgoDE = false;
-    //if (!splitAStarClicked2 || !splitAStarClicked2) {
-    clearAlgo(grid);
-    //}
-    if (splitBtbHasClicked) {
-        cols /= 3;
+    if (!splitBtbHasClicked) {
+        finishAlgoS = false;
+        finishAlgoD = false;
+        finishAlgoB = false;
+        finishAlgoDE = false;
     }
+    //if (!splitAStarClicked2 || !splitAStarClicked2) {
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
+    //}
+    // if (splitBtbHasClicked) {
+    //     cols /= 3;
+    // }
+
 
     openSet = [];
     openSetD = [];
-    for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
             grid[i][j].g = maxNumber;
             openSet.push(grid[i][j]);
             openSetD.push(divGrid[i][j]);
         }
     }
-    if (splitBtbHasClicked) {
-        cols *= 3;
-    }
-    startSpot.g = 0;
+    console.log(grid)
+
+    // if (splitBtbHasClicked) {
+    //     cols *= 3;
+    // }
+    grid[startSpot.i][startSpot.j].g = 0;
     while (openSet.length > 0) {
         var min = 0;
         for (let i = 0; i < openSet.length; i++) {
@@ -1149,7 +1326,7 @@ function dijkstra(grid, divGrid, startSpot, endSpot) {
         if (openSet.length == 0) {
             return
         }
-        if (cur === endSpot) {//if there is a path
+        if (cur.i === endSpot.i && cur.j === endSpot.j) {//if there is a path
             path = [];
             divPath = [];
             var tempCur = cur;
@@ -1205,23 +1382,28 @@ function dijkstra(grid, divGrid, startSpot, endSpot) {
     for (let i = 0; i < divPath.length; i++) {
         renderDiv(divPath[i], 'block pathDiv', delay_time);
     }
+
+
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].g = 0;
+
+        }
+    }
     finishAlgoD = true;
-
-
-
 }
-function dijkstraF(grid, divGrid, startSpot, endSpot) {
-    clearAlgo(grid);
+function dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
     openSet = [];
     openSetD = [];
-    for (let i = 0; i < cols; i++) {
-        for (let j = 0; j < rows; j++) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
             grid[i][j].g = maxNumber;
             openSet.push(grid[i][j]);
             openSetD.push(divGrid[i][j]);
         }
     }
-    startSpot.g = 0;
+    grid[startSpot.i][startSpot.j].g = 0;
     while (openSet.length > 0) {
         var min = 0;
         for (let i = 0; i < openSet.length; i++) {
@@ -1235,7 +1417,7 @@ function dijkstraF(grid, divGrid, startSpot, endSpot) {
         remove(openSetD, curDiv);
         colsedSet.push(cur);
         closedSetD.push(curDiv);
-        if (cur === endSpot) {//if there is a path
+        if (cur.i === endSpot.i && cur.j === endSpot.j) {//if there is a path
             path = [];
             divPath = [];
             var tempCur = cur;
@@ -1264,6 +1446,18 @@ function dijkstraF(grid, divGrid, startSpot, endSpot) {
             }
         }
     }
+    if (openSet.length == 0) {
+        path = [];
+        divPath = [];
+        closedSetD.shift();
+        closedSetD.pop();
+        for (let i = 0; i < closedSetD.length; i++) {
+            //if (closedSetD[i].className == 'block start') {
+            renderDiv(closedSetD[i], 'block closedSet', delay_time);
+
+        }
+        return;
+    }
     closedSetD.shift();
     closedSetD.pop();
     //rendering
@@ -1274,26 +1468,50 @@ function dijkstraF(grid, divGrid, startSpot, endSpot) {
         divPath[i].className = 'block pathDivT';
     }
 
-
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].g = 0;
+        }
+    }
+    finishAlgoD = true;
 }
 function bfsPlayer() {
     if (splitBfsClicked) {
-        bfs(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv);
+        bfs(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
         splitBfsClicked = false;
+        splitBfsClicked2 = false;
     } else if (splitBfsClicked2) {
-        bfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2);
+        bfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
         splitBfsClicked2 = false;
         splitBfsClicked = false;
-    } else if (!splitBfsClicked2 || !splitBtbClicked)
-        bfs(grid, divGrid, startSpot, endSpot, startDiv);
+    } else if (!splitBfsClicked2 || !splitBtbClicked) {
+        splitBfsClicked2 = false;
+        splitBfsClicked = false;
+        bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+    }
 
 }
-function bfs(grid, divGrid, startSpot, endSpot, startDiv) {
-    finishAlgoS = false;
-    finishAlgoD = false;
-    finishAlgoB = false;
-    finishAlgoDE = false;
-    clearAlgo(grid);
+function bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].isVisited = false;
+
+        }
+
+    }
+    if (colsedSet.length)
+        for (let i = 0; i < colsedSet.length; i++) {
+
+            colsedSet[i].isVisited = false;
+
+        }
+    if (!splitBtbHasClicked) {
+        finishAlgoS = false;
+        finishAlgoD = false;
+        finishAlgoB = false;
+        finishAlgoDE = false;
+    }
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
     openSet = [];
     openSetD = [];
     closedSetD = [];
@@ -1342,19 +1560,53 @@ function bfs(grid, divGrid, startSpot, endSpot, startDiv) {
     }
     colsedSet.shift();
     closedSetD.shift();
-    //closedSetD.pop();
+    closedSetD.pop();
     //console.log(closedSetD);
     //rendering
-    for (let i = 0; i < closedSetD.length; i++) {
-        //if (closedSetD[i].className == 'block start') {
-        //console.log("test");
-        renderDiv(closedSetD[i], 'block closedSet', delay_time);
-
+    if (finishAlgoB) {
+        for (let i = 0; i < closedSetD.length; i++) {
+            closedSetD[i].className = 'block closedSetT';
+        }
+        for (let i = 0; i < divPath.length; i++) {
+            divPath[i].className = 'block pathDivT';
+        }
     }
-    for (let i = 0; i < divPath.length; i++) {
-        renderDiv(divPath[i], 'block pathDiv', delay_time);
+    else {
+        for (let i = 0; i < closedSetD.length; i++) {
+            //if (closedSetD[i].className == 'block start') {
+            //console.log("test");
+            renderDiv(closedSetD[i], 'block closedSet', delay_time);
+
+        }
+        for (let i = 0; i < divPath.length; i++) {
+            renderDiv(divPath[i], 'block pathDiv', delay_time);
+        }
     }
     finishAlgoB = true;
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].isVisited = false;
+        }
+
+    }
+    if (colsedSet.length)
+        for (let i = 0; i < colsedSet.length; i++) {
+
+            colsedSet[i].isVisited = false;
+
+        }
+}
+function bfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
+    if (colsedSet.length)
+        for (let i = 0; i < colsedSet.length; i++) {
+
+            colsedSet[i].isVisited = false;
+
+        }
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
+    openSet = [];
+    openSetD = [];
+    closedSetD = [];
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid[0].length; j++) {
             grid[i][j].isVisited = false;
@@ -1362,13 +1614,6 @@ function bfs(grid, divGrid, startSpot, endSpot, startDiv) {
         }
 
     }
-}
-function bfsF(grid, divGrid, startSpot, endSpot, startDiv) {
-
-    clearAlgo(grid);
-    openSet = [];
-    openSetD = [];
-    //closedSetD = [];
     startSpot.isVisited = true;
     openSet.push(startSpot);
     openSetD.push(startDiv);
@@ -1423,27 +1668,50 @@ function bfsF(grid, divGrid, startSpot, endSpot, startDiv) {
         divPath[i].className = 'block pathDivT';
     }
 
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].isVisited = false;
+        }
+    }
+    if (colsedSet.length)
+        for (let i = 0; i < colsedSet.length; i++) {
+
+            colsedSet[i].isVisited = false;
+
+        }
 }
 function dfsPlayer() {
     if (splitDfsClicked) {
-        dfs(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv);
+        dfs(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
         splitDfsClicked = false;
-    }
-    else if (splitDfsClicked2) {
-        dfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2);
         splitDfsClicked2 = false;
     }
+    else if (splitDfsClicked2) {
+        dfs(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
+        splitDfsClicked2 = false;
+        splitDfsClicked = false;
+    }
     else {
-        dfs(grid, divGrid, startSpot, endSpot, startDiv);
-
+        dfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+        splitDfsClicked2 = false;
+        splitDfsClicked = false;
     }
 }
-function dfs(grid, divGrid, startSpot, endSpot, startDiv) {
-    finishAlgoS = false;
-    finishAlgoD = false;
-    finishAlgoB = false;
-    finishAlgoDE = false;
-    clearAlgo(grid);
+function dfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].isVisited = false;
+
+        }
+
+    }
+    if (!splitBtbHasClicked) {
+        finishAlgoS = false;
+        finishAlgoD = false;
+        finishAlgoB = false;
+        // finishAlgoDE = false;
+    }
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
     openSet = [];
     openSetD = [];
     if (splitDfsClicked2) {
@@ -1503,14 +1771,23 @@ function dfs(grid, divGrid, startSpot, endSpot, startDiv) {
     closedSetD.shift();
     //closedSetD.pop();
     //console.log(closedSetD);
-    for (let i = 0; i < closedSetD.length; i++) {
-        //if (closedSetD[i].className == 'block start') {
-        console.log("test");
-        renderDiv(closedSetD[i], 'block closedSet', delay_time);
+    if (finishAlgoDE) {
+        for (let i = 0; i < closedSetD.length; i++) {
+            closedSetD[i].className = 'block closedSetT';
+        }
+        for (let i = 0; i < divPath.length; i++) {
+            divPath[i].className = 'block pathDivT';
+        }
+    } else {
+        for (let i = 0; i < closedSetD.length; i++) {
+            //if (closedSetD[i].className == 'block start') {
+            console.log("test");
+            renderDiv(closedSetD[i], 'block closedSet', delay_time);
 
-    }
-    for (let i = 0; i < divPath.length; i++) {
-        renderDiv(divPath[i], 'block pathDiv', delay_time);
+        }
+        for (let i = 0; i < divPath.length; i++) {
+            renderDiv(divPath[i], 'block pathDiv', delay_time);
+        }
     }
     finishAlgoDE = true;
     for (let i = 0; i < grid.length; i++) {
@@ -1521,9 +1798,15 @@ function dfs(grid, divGrid, startSpot, endSpot, startDiv) {
 
     }
 }
-function dfsF(grid, divGrid, startSpot, endSpot, startDiv) {
+function dfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].isVisited = false;
 
-    clearAlgo(grid);
+        }
+
+    }
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
     openSet = [];
     openSetD = [];
     startSpot.isVisited = true;
@@ -1578,6 +1861,13 @@ function dfsF(grid, divGrid, startSpot, endSpot, startDiv) {
     }
     for (let i = 0; i < divPath.length; i++) {
         divPath[i].className = 'block pathDivT';
+    }
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid[i][j].isVisited = false;
+
+        }
+
     }
 }
 function mazeBTPlayer() {
@@ -1667,9 +1957,10 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
         sEndSpot = grid[15][2];
         sEndDiv = divGrid[15][2];
         sEndDiv2 = divGrid2[15][2];
+        sEndSpot.wall = false;
         renderDiv(sEndDiv, 'block end', delay_time);
         renderDiv(sEndDiv2, 'block end', delay_time);
-        sEndSpot.wall = false;
+
 
     }
 
