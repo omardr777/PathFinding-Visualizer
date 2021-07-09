@@ -101,6 +101,8 @@ var endDiv;
 var divPath = [];
 var finished = false;
 
+var timeToEdit = 0;
+
 function Spot(i, j) {
     this.i = i;
     this.j = j;
@@ -389,7 +391,7 @@ var blocks = document.querySelectorAll(".block").forEach(item => {
     var ii = parseInt(tempIdString[0]);
     var jj = parseInt(tempIdString[1]);
     var lastDiv = undefined;
-    // if (algoRunning == false) {
+
     item.addEventListener('click', () => {
 
         if (item.className.includes("rDiv") ||
@@ -414,8 +416,6 @@ var blocks = document.querySelectorAll(".block").forEach(item => {
                 sGrid2[ii][jj].wall = false;
             }
         }
-
-
     });
     item.addEventListener('mousedown', () => {
 
@@ -726,6 +726,7 @@ var blocks = document.querySelectorAll(".block").forEach(item => {
 
     });
 
+
 });
 
 function createGrid(cols, rows, grid, divGrid, container) {
@@ -990,10 +991,38 @@ function clearWallPlayer() {
     }
     clearWall(grid, divGrid);
 }
+function algoBtnsDisable() {
+    var btns = document.querySelectorAll('.button');
+    console.log(btns);
+    btns.forEach(item => {
+        item.disabled = true;
+    })
+    var blocks2 = document.querySelectorAll('.block');
+    blocks2.forEach(item => {
+        item.style.pointerEvents = "none";
+    })
+
+}
+function algoBtnsEnable() {
+    window.setTimeout(() => {
+        algoRunning = true;
+        var btns = document.querySelectorAll('.button');
+        console.log(btns);
+        btns.forEach(item => {
+            item.disabled = false;
+        })
+        var blocks2 = document.querySelectorAll('.block');
+        blocks2.forEach(item => {
+            item.style.pointerEvents = "auto";
+        })
+    }, delay += delay_time)
+
+
+}
 
 //algorithms function
 function aStarPlayer() {
-
+    algoBtnsDisable();
     if (splitAStarClicked) {
         //cols = cols / 3;
         //console.log(cols);
@@ -1014,6 +1043,8 @@ function aStarPlayer() {
     }
     else
         aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv);
+
+    algoBtnsEnable();
 }
 function aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
     // console.log(grid);
@@ -1273,7 +1304,7 @@ function aStarFinish(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
 }
 function dijkstraPlayer() {
     algoRunning = true;
-
+    algoBtnsDisable();
     if (splitDijkstraClicked) {
         dijkstra(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv); splitDijkstraBtn = false;
 
@@ -1283,8 +1314,7 @@ function dijkstraPlayer() {
     } else
         dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
 
-    algoRunning = false;
-
+    algoBtnsEnable();
 }
 function dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     var finishDij = false;
@@ -1486,6 +1516,7 @@ function dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     finishAlgoD = true;
 }
 function bfsPlayer() {
+    algoBtnsDisable();
     if (splitBfsClicked) {
         bfs(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
         splitBfsClicked = false;
@@ -1499,7 +1530,7 @@ function bfsPlayer() {
         splitBfsClicked = false;
         bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
     }
-
+    algoBtnsEnable();
 }
 function bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     for (let i = 0; i < grid.length; i++) {
@@ -1570,7 +1601,7 @@ function bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     }
     colsedSet.shift();
     closedSetD.shift();
-    closedSetD.pop();
+    //closedSetD.pop();
     //console.log(closedSetD);
     //rendering
     if (finishAlgoB) {
@@ -1668,7 +1699,7 @@ function bfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     }
     colsedSet.shift();
     closedSetD.shift();
-    closedSetD.pop();
+    //closedSetD.pop();
     //console.log(closedSetD);
     //rendering
     for (let i = 0; i < closedSetD.length; i++) {
@@ -1691,6 +1722,7 @@ function bfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
         }
 }
 function dfsPlayer() {
+    algoBtnsDisable();
     if (splitDfsClicked) {
         dfs(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
         splitDfsClicked = false;
@@ -1706,6 +1738,7 @@ function dfsPlayer() {
         splitDfsClicked2 = false;
         splitDfsClicked = false;
     }
+    algoBtnsEnable();
 }
 function dfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     for (let i = 0; i < grid.length; i++) {
@@ -1881,11 +1914,13 @@ function dfsF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     }
 }
 function mazeBTPlayer() {
+    algoBtnsDisable();
     if (splitBtbHasClicked) {
         mazeBT(sGrid1, sDGrid1, sGrid2, sDGrid2);
     } else {
         mazeBT(grid, divGrid, undefined, undefined);
     }
+    algoBtnsEnable();
 }
 function mazeBT(grid, divGrid, grid2, divGrid2) {
     // startSpot = grid[0][0];
@@ -2025,6 +2060,9 @@ window.onclick = function (event) {
     }
     //test2
 }
+// let freezeClic = false; // just modify that variable to disable all clics events
+
+
 /**function recursiveBacktracker(grid, s, choices){
   if(s.length){
     let batch = s[s.length - 1];
