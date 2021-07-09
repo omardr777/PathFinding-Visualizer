@@ -675,11 +675,21 @@ var blocks = document.querySelectorAll(".block").forEach(item => {
 
         if (hasStartClicked || hasEndClicked) {
             item.className = tempClassName;
-            if (tempClassName.includes('wDiv')) {
+            if (splitBtbHasClicked) {
+                sDGrid1[ii][jj].className = tempClassName;
+                sDGrid2[ii][jj].className = tempClassName;
+            }
+            if (tempClassName.includes('w')) {
                 grid[ii][jj].wall = true;
                 if (splitBtbHasClicked) {
                     sGrid1[ii][jj].wall = true;
                     sGrid2[ii][jj].wall = true;
+                }
+            } else {
+                grid[ii][jj].wall = false;
+                if (splitBtbHasClicked) {
+                    sGrid1[ii][jj].wall = false;
+                    sGrid2[ii][jj].wall = false;
                 }
             }
         }
@@ -1881,6 +1891,7 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
     // startSpot = grid[0][0];
     // endSpot = grid[cols - 1][rows - 1];
     delay = 0;
+    var delay_time2 = 4;
     for (let i = 0; i < grid.length; ++i) {
         for (let j = 0; j < grid[i].length; ++j) {
 
@@ -1915,8 +1926,8 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
         let inBetween = batch[0];
         frontier.wall = false;
         inBetween.wall = false;
-        renderDiv(divGrid[frontier.i][frontier.j], 'block sDiv', delay_time);
-        renderDiv(divGrid[inBetween.i][inBetween.j], 'block sDiv', delay_time);
+        renderDiv(divGrid[frontier.i][frontier.j], 'block sDiv', delay_time2);
+        renderDiv(divGrid[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
         if (splitBtbHasClicked) {
             divGrid2[cell.i][cell.j].className = 'block rDiv';
             grid2[frontier.i][frontier.j].wall = false;
@@ -1942,24 +1953,24 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
         startSpot = grid[15][10];
         startSpot.wall = false;
         startDiv = divGrid[15][10];
-        renderDiv(startDiv, 'block start', delay_time);
+        renderDiv(startDiv, 'block start', delay_time2);
         endSpot = grid[45][10];
         endDiv = divGrid[45][10];
-        renderDiv(endDiv, 'block end', delay_time);
+        renderDiv(endDiv, 'block end', delay_time2);
         endSpot.wall = false;
     } else {
         sStartSpot = grid[3][2];
         sStartSpot.wall = false;
         sStartDiv = divGrid[3][2];
         sStartDiv2 = divGrid2[3][2];
-        renderDiv(sStartDiv, 'block start', delay_time);
-        renderDiv(sStartDiv2, 'block start', delay_time);
+        renderDiv(sStartDiv, 'block start', delay_time2);
+        renderDiv(sStartDiv2, 'block start', delay_time2);
         sEndSpot = grid[15][2];
         sEndDiv = divGrid[15][2];
         sEndDiv2 = divGrid2[15][2];
         sEndSpot.wall = false;
-        renderDiv(sEndDiv, 'block end', delay_time);
-        renderDiv(sEndDiv2, 'block end', delay_time);
+        renderDiv(sEndDiv, 'block end', delay_time2);
+        renderDiv(sEndDiv2, 'block end', delay_time2);
 
 
     }
