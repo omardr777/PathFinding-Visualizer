@@ -182,7 +182,8 @@ nav{
 #sContainer1{
   
   display: inline-block;
-  border-right: 5px solid black;
+  /* border-right: 5px solid black; */
+  border: 2px solid black; 
   width: fit-content;
   position: relative;
   margin:5px auto;
@@ -190,7 +191,7 @@ nav{
 #sContainer2{
   position: relative;
   display: inline-block;
-  border-left: 5px solid black;
+   border: 2px solid black; 
   width: fit-content;
   margin:5px auto;
  

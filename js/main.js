@@ -266,6 +266,8 @@ splitBtn.addEventListener('click', () => {
     sContainer1.classList.toggle('unShow');
     sContainer2.classList.toggle('unShow');
     runBtn.classList.toggle('unShow');
+    span1.classList.toggle('unShow');
+    span2.classList.toggle('unShow');
     selectedBtn2 = '';
     selectedBtn = '';
     splitDijkstraClicked = false;
