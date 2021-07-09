@@ -9,12 +9,16 @@
     <link rel="stylesheet" href="css/master.css">
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@800&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+Tammudu+2:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
     <link rel="icon" href="startV2.png">
 </head>
 
 <body>
     <nav>
+
         <div class="btn-container">
             <button id="algoDropBtn" class="button algoDropBtn" onclick="myFunction()"> Algorithms </button>
             <div class="algoContent" id="algoContentId">
@@ -30,6 +34,7 @@
             <button id="clearBtn" class='button'>clear path</button>
             <button id="clearWallBtn" class='button'>clear wall</button>
             <button id="speedBtn" class='button algoDropBtn' onclick="myFunction2()">speed</button>
+            <button id="nodeSizeBtn" class='button'>Node Size</button>
             <div class="algoContent" id="speedConten">
                 <button class="button btnAlgo" id="fastSpeed">fasr</button>
                 <button class="button btnAlgo" id="slowSpeed">slow</button>
@@ -39,10 +44,46 @@
 
 
         </div>
+        <div class="keyContainer">
+            <div style="height: fit-content; display: inline-block;" class="viewer">
+                <div id="startD" class="keyViewer">
+
+                </div>
+                <div> Start Node</div>
+                <!-- <span class="keyValues">Start Node</span> -->
+            </div>
+            <div style="height: fit-content; display: inline-block;" class="viewer">
+                <div id="endD" class="keyViewer">
+
+                </div>
+                <!-- <span class="keyValues">End Node</span> -->
+                End Node
+            </div>
+            <div style="height: fit-content; display: inline-block;" class="viewer">
+                <div id="spaceD" class="keyViewer block rDiv">
+
+                </div>
+                Unvisited Node
+                <!-- <span class="keyValues">Space Node</span> -->
+            </div>
+            <div style="height: fit-content; display: inline-block;" class="viewer">
+                <div id="spaceD" class="keyViewer block closedSetT">
+
+                </div>
+                <!-- <span class="keyValues">Visited Node</span> -->
+                Visited Node
+            </div>
+            <div style="height: fit-content; display: inline-block;" class="viewer">
+                <div id="spaceD" class="keyViewer block pathDivT">
+
+                </div>
+                <!-- <span class="keyValues">Path Node</span> -->
+                Path Node
+            </div>
+        </div>
+
     </nav>
-    <!-- <div style="width: fit-content; height:fit-content;">
-        <div class="start"></div>
-    </div> -->
+
     <div id="container">
 
     </div>

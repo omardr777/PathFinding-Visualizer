@@ -28,7 +28,7 @@ var splitDfsBtn2 = document.getElementById('splitDfsBtn2');
 var runBtn = document.getElementById('runBtn');
 var span1 = document.getElementById('span1');
 var span2 = document.getElementById('span2');
-
+var root = document.documentElement;
 
 var splitBtbHasClicked = false;
 var splitAStarClicked = false;
