@@ -1360,8 +1360,12 @@ function dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
                 min = i;
             }
         }
+
         var cur = openSet[min];
         var curDiv = openSetD[min];
+        if (cur.g == Infinity) {
+            break;
+        }
         remove(openSet, cur);
         remove(openSetD, curDiv);
         colsedSet.push(cur);
@@ -1459,6 +1463,9 @@ function dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
         }
         var cur = openSet[min];
         var curDiv = openSetD[min];
+        if (cur.g == Infinity) {
+            break;
+        }
         remove(openSet, cur);
         remove(openSetD, curDiv);
         colsedSet.push(cur);
