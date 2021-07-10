@@ -56,8 +56,8 @@ var selectedBtn2 = '';
 //var splitAStarClicked2 = false;
 //var splitDijkstraClicked = false;
 //var splitBfsClicked2 = false;*/
-var cols = 84;
-var rows = 28;
+var cols = 63;
+var rows = 21;
 var delay = 0;
 var delay_time = 8;
 var grid = new Array(cols);
@@ -1600,7 +1600,6 @@ function bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
             for (let i = 0; i < neighbours.length; i++) {
                 var neighbour = neighbours[i];
                 if (!neighbour.wall) {
-                    //console.log(neighbour);
                     if (!neighbour.isVisited) {
                         neighbour.isVisited = true;
                         neighbour.previous = cur;
