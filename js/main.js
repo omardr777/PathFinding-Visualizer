@@ -1376,7 +1376,8 @@ function dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
         if (openSet.length == 0) {
             return
         }
-        if (cur.i === endSpot.i && cur.j === endSpot.j) {//if there is a path
+        if (cur.i === endSpot.i && cur.j === endSpot.j) {
+            closedSetD.pop();//if there is a path
             path = [];
             divPath = [];
             var tempCur = cur;
@@ -1421,7 +1422,7 @@ function dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
         return;
     }
     closedSetD.shift();
-    closedSetD.pop();
+
     //rendering
     for (let i = 0; i < closedSetD.length; i++) {
         //if (closedSetD[i].className == 'block start') {
@@ -1470,7 +1471,8 @@ function dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
         remove(openSetD, curDiv);
         colsedSet.push(cur);
         closedSetD.push(curDiv);
-        if (cur.i === endSpot.i && cur.j === endSpot.j) {//if there is a path
+        if (cur.i === endSpot.i && cur.j === endSpot.j) {
+            closedSetD.pop();//if there is a path
             path = [];
             divPath = [];
             var tempCur = cur;
@@ -1512,7 +1514,7 @@ function dijkstraF(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
         return;
     }
     closedSetD.shift();
-    closedSetD.pop();
+
     //rendering
     for (let i = 0; i < closedSetD.length; i++) {
         closedSetD[i].className = 'block closedSetT';
