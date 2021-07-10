@@ -25,6 +25,10 @@ body{
 .algoDropBtn{
     position: relative;
 }
+
+#speedConten{
+  position: relative;
+}
 .button:hover,.button:focus {
             background-color: #ff8800;
     }
