@@ -28,6 +28,7 @@ var splitDfsBtn2 = document.getElementById('splitDfsBtn2');
 var runBtn = document.getElementById('runBtn');
 var span1 = document.getElementById('span1');
 var span2 = document.getElementById('span2');
+var primMazeBtn = document.getElementById('primMazeBtn');
 var root = document.documentElement;
 
 var splitBtbHasClicked = false;
@@ -55,8 +56,8 @@ var selectedBtn2 = '';
 //var splitAStarClicked2 = false;
 //var splitDijkstraClicked = false;
 //var splitBfsClicked2 = false;*/
-var cols = 63;
-var rows = 22;
+var cols = 84;
+var rows = 28;
 var delay = 0;
 var delay_time = 8;
 var grid = new Array(cols);
@@ -351,6 +352,9 @@ splitDfsBtn2.addEventListener('click', () => {
     console.log(selectedBtn2)
     //dfsPlayer();
 })
+primMazeBtn.addEventListener('click', () => {
+    primMazePlayer();
+});
 /*
 // splitAStarBtn.addEventListener('click', () => {
 //     splitAStarClicked = true;
@@ -926,7 +930,7 @@ function stairMaze(grid, divGrid) {
     clearWall(grid, divGrid);
     let i = 0;
     let j = grid[0].length - 1;
-    while (i <= 41 && j >= 0) {
+    while (j >= 0) {
         grid[i][j].wall = true;
         // divGrid[i][j].className = 'block wDiv'
         renderDiv(divGrid[i][j], 'block wDiv', delay_time);
@@ -936,7 +940,7 @@ function stairMaze(grid, divGrid) {
     i--;
     console.log(i);
     j = 0;
-    while (i <= 40 && j < grid[0].length - 1) {
+    while (j < grid[0].length - 2) {
         grid[i][j].wall = true;
         // divGrid[i][j].className = 'block wDiv'
         renderDiv(divGrid[i][j], 'block wDiv', delay_time);
@@ -945,7 +949,7 @@ function stairMaze(grid, divGrid) {
     }
 
     console.log(i);
-    while (i < grid.length - 1 && j >= 1) {
+    while (i < grid.length - 2 && j >= 2) {
         grid[i][j].wall = true;
         // divGrid[i][j].className = 'block wDiv'
         renderDiv(divGrid[i][j], 'block wDiv', delay_time);
@@ -2014,6 +2018,94 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
 
 
 }
+function primMazePlayer() {
+    algoBtnsDisable();
+    if (splitBtbHasClicked) {
+        primMaze(sGrid1, sDGrid1, sGrid2, sDGrid2);
+    } else {
+        primMaze(grid, divGrid, undefined, undefined);
+    }
+    algoBtnsEnable();
+}
+function primMaze(grid, divGrid, grid2, divGrid2) {
+    delay = 0;
+    var delay_time2 = 4;
+    for (let i = 0; i < grid.length; ++i) {
+        for (let j = 0; j < grid[i].length; ++j) {
+
+            grid[i][j].wall = true;
+            divGrid[i][j].className = "block wallT";
+            if (splitBtbHasClicked) {
+                grid2[i][j].wall = true;
+                divGrid2[i][j].className = "block wallT";
+            }
+
+        }
+    }
+    let cell = grid[Math.floor(Math.random() * grid.length)][Math.floor(Math.random() * grid[0].length)];
+    cell.wall = false;
+    divGrid[cell.i][cell.j].className = 'block rDiv';
+    let choices = [[-2, 0], [0, 2], [2, 0], [0, -2]];
+
+    let frontierList = [];
+
+    neighboursForMazePrim(grid, frontierList, cell, choices);
+
+    console.log(frontierList)
+    while (frontierList.length) {
+        let rnd = Math.floor(Math.random() * frontierList.length);
+        let batch = frontierList[rnd];
+        frontierList.splice(rnd, 1);
+        console.log(batch);
+        let inBetween = batch[0];
+        let frontier = batch[1];
+
+        if (frontier.wall) {
+            frontier.wall = false;
+            inBetween.wall = false;
+            renderDiv(divGrid[frontier.i][frontier.j], 'block sDiv', delay_time2);
+            renderDiv(divGrid[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
+            neighboursForMazePrim(grid, frontierList, frontier, choices);
+            if (splitBtbHasClicked) {
+                divGrid2[cell.i][cell.j].className = 'block rDiv';
+                grid2[frontier.i][frontier.j].wall = false;
+                grid2[inBetween.i][inBetween.j].wall = false;
+                renderDiv(divGrid2[frontier.i][frontier.j], 'block sDiv', delay_time);
+                renderDiv(divGrid2[inBetween.i][inBetween.j], 'block sDiv', delay_time);
+            }
+        }
+
+
+
+    }
+    if (!splitBtbHasClicked) {
+
+        startSpot = grid[15][10];
+        startSpot.wall = false;
+        startDiv = divGrid[15][10];
+        renderDiv(startDiv, 'block start', delay_time2);
+        endSpot = grid[45][10];
+        endDiv = divGrid[45][10];
+        renderDiv(endDiv, 'block end', delay_time2);
+        endSpot.wall = false;
+    } else {
+        sStartSpot = grid[3][2];
+        sStartSpot.wall = false;
+        sStartDiv = divGrid[3][2];
+        sStartDiv2 = divGrid2[3][2];
+        renderDiv(sStartDiv, 'block start', delay_time2);
+        renderDiv(sStartDiv2, 'block start', delay_time2);
+        sEndSpot = grid[15][2];
+        sEndDiv = divGrid[15][2];
+        sEndDiv2 = divGrid2[15][2];
+        sEndSpot.wall = false;
+        renderDiv(sEndDiv, 'block end', delay_time2);
+        renderDiv(sEndDiv2, 'block end', delay_time2);
+
+
+    }
+
+}
 function neighboursForMaze(grid, cell, choices) {
     let neighboursFM = [];
     for (let i = 0; i < choices.length; i++) {
@@ -2048,6 +2140,37 @@ function neighboursForMaze(grid, cell, choices) {
 
     }
     return neighboursFM;
+}
+function neighboursForMazePrim(grid, frontierList, cell, choices) {
+    let neighboursFM = [];
+    for (let i = 0; i < choices.length; i++) {
+        let row = cell.i + choices[i][0];
+        let col = cell.j + choices[i][1];
+        if (grid[row] && grid[row][col] && grid[row][col].wall && grid[row][col] != startSpot) {
+            if (grid[row][col] != endSpot) {
+                //if (grid[row][col]) {
+
+
+                // if (grid[row][col] != startSpot || grid[row][col] != endSpot) {
+
+                let frontire = grid[row][col];
+                let inBetween = null;
+
+                if (choices[i][0] === -2) {
+                    inBetween = grid[(cell.i - 1)][cell.j];
+                } else if (choices[i][0] === 2) {
+                    inBetween = grid[(cell.i + 1)][cell.j];
+                } else if (choices[i][1] === -2) {
+                    inBetween = grid[cell.i][(cell.j - 1)];
+                } else if (choices[i][1] === 2) {
+                    inBetween = grid[cell.i][(cell.j + 1)];
+                }
+                frontierList.push([inBetween, frontire]);
+
+            }
+        }
+
+    }
 }
 window.onclick = function (event) {
     if (!event.target.matches('.algoDropBtn')) {

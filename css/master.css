@@ -3,7 +3,11 @@ body{
     font-family: 'Baloo Tammudu 2', cursive;
     
 }
-
+:root {
+    --main-bg-color: coral;
+    --size:16px;
+    --size2:24px;
+  }
 .algoContent {
     margin-top: 10px;
     padding: 10px;
@@ -24,11 +28,7 @@ body{
 .button:hover,.button:focus {
             background-color: #ff8800;
     }
-:root {
-    --main-bg-color: coral;
-    --size:22px;
-    --size2:24px;
-  }
+
 
 .divRC{
     background-color: white;
