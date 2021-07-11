@@ -196,7 +196,7 @@ aStarBtn.addEventListener('click', aStarPlayer);
 clearBtn.addEventListener('click', () => {
 
     if (splitBtbHasClicked) {
-        clearAlgo(sGrid1, sDGrid1, sStartSpot, sStartDiv1, sEndDiv1);
+        clearAlgo(sGrid1, sDGrid1, sStartSpot, sStartDiv, sEndDiv);
         clearAlgo(sGrid2, sDGrid2, sStartSpot, sStartDiv2, sEndDiv2);
     } else {
         clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
@@ -900,12 +900,13 @@ function clearAlgo(grid, divGrid, startSpot, startDiv, endDiv) {
     // });
     for (let i = 0; i < divGrid.length; i++) {
         for (let j = 0; j < grid[0].length; j++) {
-            if (!divGrid[i][j].className.includes("w"))
+            console.log('test');
+            if (divGrid[i][j].className.includes("w")) {
+                continue;
+            } else {
                 divGrid[i][j].className = 'block rDiv';
-
-
+            }
         }
-
     }
     startDiv.className = 'block start';
     endDiv.className = 'block end';
@@ -1106,7 +1107,9 @@ function aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
             //closedSetD.shift();
             break;
         }
-        // renderDiv(openSetD[openSetD.length - 1], 'block pathDiv', delay_time)
+
+        // renderDiv(closedSetD[closedSetD.length - 1], 'block pathDiv', delay_time)
+        // renderDiv(closedSetD[closedSetD.length - 1], 'block rDiv', delay_time)
         // renderDiv(openSetD[openSetD.length - 1], 'block rDiv', delay_time)
         // openSet.reomve(current)
         remove(openSet, current);
@@ -2192,6 +2195,185 @@ window.onclick = function (event) {
         }
     }
     //test2
+}
+
+
+function biAstar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
+    var openSet2 = [];
+    var openSetD2 = [];
+    var closedSet2 = [];
+    var closedSetD2 = [];
+    var path2 = [];
+    var divPath2 = [];
+    openSet2.push(endSpot);
+    openSetD2.push(endDiv);
+
+    clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
+    //algoRunning = true;
+    while (openSet.length && openSet2.length) {
+
+        var lowestF = 0;
+        for (let i = 0; i < openSet.length; i++) {
+            if (openSet[i].f <= openSet[lowestF].f) {
+                lowestF = i;
+            }
+        }
+        var lowestF2 = 0;
+        for (let i = 0; i < openSet2.length; i++) {
+            if (openSet2[i].f <= openSet2[lowestF2].f) {
+                lowestF2 = i;
+            }
+        }
+
+        var current = openSet[lowestF];
+        var currentDiv = openSetD[lowestF];
+        var current2 = openSet2[lowestF2];
+        var currentDiv2 = openSetD2[lowestF2];
+
+        if (closedSet2.includes(current) || current == endSpot) {
+            hasSolution = true;
+            finished = true;
+            path = [];
+            divPath = [];
+            var temp = current;
+            var tempDiv = currentDiv;
+            path.push(temp);
+            divPath.push(tempDiv);
+            while (temp.previous) {
+                path.push(temp.previous);
+                divPath.push(divGrid[temp.previous.i][temp.previous.j])
+                temp = temp.previous;
+
+            }
+            divPath.shift();
+            divPath.pop();
+            divPath.reverse();
+
+            break;
+        } if (colsedSet.includes(current2) || current2 == startSpot) {
+            hasSolution = true;
+            finished = true;
+            path2 = [];
+            divPath2 = [];
+            var temp = current;
+            var tempDiv = currentDiv;
+            path2.push(temp);
+            divPath2.push(tempDiv);
+            while (temp.previous) {
+                path2.push(temp.previous);
+                divPath2.push(divGrid[temp.previous.i][temp.previous.j])
+                temp = temp.previous;
+
+            }
+            divPath2.shift();
+            divPath2.pop();
+            divPath2.reverse();
+
+            break;
+        }
+        remove(openSet, current);
+        colsedSet.push(current);
+        remove(openSetD, currentDiv);
+        closedSetD.push(currentDiv);
+        remove(openSet2, current2);
+        closedSet2.push(current2);
+        remove(openSetD2, currentDiv2);
+        closedSetD2.push(currentDiv2);
+
+        var neighbors = current.neighbors;
+        for (var i = 0; i < neighbors.length; i++) {
+            var element = neighbors[i];
+
+            if (colsedSet.includes(element) || element.wall) {
+                continue;
+            }
+
+            if (!colsedSet.includes(element) && !element.wall) {
+                var tempG = current.g + 1;
+                var newPath = false;
+
+                if (openSet.includes(element)) {
+                    if (tempG < element.g) {
+                        element.g = tempG;
+                        newPath = true;
+
+                    }
+                } else {
+                    element.g = tempG;
+                    newPath = true;
+                    openSet.push(element);
+                    openSetD.push(divGrid[element.i][element.j]);
+
+                }
+
+                if (newPath) {
+
+                    element.h = dist(element, endSpot);
+                    element.f = element.g + element.h;
+                    element.previous = current;
+                    //console.log(element);
+                }
+
+            }
+
+        }
+        var neighbors2 = current2.neighbors;
+        for (var i = 0; i < neighbors2.length; i++) {
+            var element = neighbors2[i];
+
+            if (closedSet2.includes(element) || element.wall) {
+                continue;
+            }
+
+            if (!closedSet2.includes(element) && !element.wall) {
+                var tempG = current.g + 1;
+                var newPath = false;
+
+                if (openSet2.includes(element)) {
+                    if (tempG < element.g) {
+                        element.g = tempG;
+                        newPath = true;
+
+                    }
+                } else {
+                    element.g = tempG;
+                    newPath = true;
+                    openSet2.push(element);
+                    openSetD2.push(divGrid[element.i][element.j]);
+
+                }
+
+                if (newPath) {
+
+                    element.h = dist(element, endSpot);
+                    element.f = element.g + element.h;
+                    element.previous = current;
+                    //console.log(element);
+                }
+
+            }
+
+        }
+
+    }
+    closedSetD.shift();
+
+    for (let i = 0; i < closedSetD.length; i++) {
+        renderDiv(closedSetD[i], 'block closedSet', delay_time);
+    }
+    for (let i = 0; i < closedSetD2.length; i++) {
+        renderDiv(closedSetD2[i], 'block closedSet', delay_time);
+    } for (let i = 0; i < divPath.length; i++) {
+        renderDiv(divPath[i], 'block pathDiv', delay_time);
+    }
+    // for (let i = 0; i < divPath.length; i++) {
+    //     renderDiv(divPath[i], 'block pathDiv', delay_time);
+    // }
+
+
+    finishAlgoS = true;
+    startSpot.previous = undefined;
+
 }
 // let freezeClic = false; // just modify that variable to disable all clics events
 
