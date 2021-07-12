@@ -64,16 +64,24 @@ var rows = 21;
 var delay = 0;
 var delay_time = 15;
 
+
+
+var x3 = window.matchMedia("(max-width: 1024px)");
+if (x3.matches) {
+    cols = 42;
+    rows = 21;
+}
+var x2 = window.matchMedia("(max-width: 800px)");
+if (x2.matches) {
+    cols = 42;
+    rows = 21;
+}
 var x = window.matchMedia("(max-width: 700px)");
 if (x.matches) {
     cols = 21;
     rows = 12;
 }
-// var x2 = window.matchMedia("(max-width: 1024px)");
-// if (x2.matches) {
-//     cols = 21;
-//     rows = 12;
-// }
+
 
 var grid = new Array(cols);
 
