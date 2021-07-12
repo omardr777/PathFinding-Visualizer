@@ -1,5 +1,5 @@
 # PathFinding-Visualizer
-Beta? hmm..
+Beta? hmm..  
 project to visualize some Graph algorithms:-
 * Pathfinding algoritms
   * AStar algoritm
@@ -12,7 +12,7 @@ project to visualize some Graph algorithms:-
   * Prims algo (animated and realTime) *from https://github.com/hisham-maged10/path-finder
   * normal maze
   * stair maze
-* comparing 2 algos
+* comparing 2 algos  
 you can see it form here <h2>https://omardr777.github.io/PathFinding-Visualizer/
 
 
