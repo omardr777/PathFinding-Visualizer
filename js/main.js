@@ -64,11 +64,12 @@ var rows = 21;
 var delay = 0;
 var delay_time = 15;
 
-var x = window.matchMedia("(max-width: 900px)");
+var x = window.matchMedia("(max-width: 700px)");
 if (x.matches) {
     cols = 21;
-    rows = 21;
+    rows = 12;
 }
+//var x2 = 
 
 
 var grid = new Array(cols);
