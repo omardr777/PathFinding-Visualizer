@@ -60,7 +60,7 @@ var selectedBtn2 = '';
 var cols = 63;
 var rows = 21;
 var delay = 0;
-var delay_time = 10;
+var delay_time = 15;
 var grid = new Array(cols);
 
 var sStartSpot;
@@ -208,7 +208,7 @@ maze.addEventListener('click', () => {
     var list = document.getElementById('mazeContent');
     list.classList.toggle('show');
 })
-mazeBtn.addEventListener('click', mazeNormal);
+mazeBtn.addEventListener('click', mazeNPlayer);
 stairMazeBtn.addEventListener('click', stairMazrPlayer);
 clearWallBtn.addEventListener('click', clearWallPlayer);
 dijkstraBtn.addEventListener('click', dijkstraPlayer);
@@ -217,57 +217,75 @@ dfsBtn.addEventListener('click', dfsPlayer);
 runBtn.addEventListener('click', () => {
     clearAlgo(sGrid1, sDGrid1, sStartSpot, sStartDiv, sEndDiv);
     clearAlgo(sGrid2, sDGrid2, sStartSpot, sStartDiv2, sEndDiv2);
-    if (selectedBtn.length > 0 && selectedBtn2.length > 0) {
-        switch (selectedBtn) {
-            case "aStar":
-                aStarPlayer();
-                span1.textContent = "aStar";
-                break;
-            case "dijkstra":
-                dijkstraPlayer();
-                span1.textContent = "dijkstra";
-                break;
-            case 'bfs':
-                bfsPlayer();
-                span1.textContent = "bfs";
-                break;
-            case "dfs":
-                dfsPlayer();
-                span1.textContent = "dfs";
-                break;
-        }
-        switch (selectedBtn2) {
-            case "aStar2":
-                aStarPlayer();
-                span2.textContent = "   aStar";
-                break;
-            case "dijkstra2":
-                dijkstraPlayer();
-                span2.textContent = "   dijkstra2";
-                break;
-            case 'bfs2':
-                bfsPlayer();
-                span2.textContent = "   bfs";
+    finishAlgoB = false;
+    finishAlgoS = false;
+    finishAlgoDE = false;
+    finishAlgoD = false;
 
-                break;
-            case "dfs2":
-                dfsPlayer();
-                span2.textContent = "   dfs";
+    if (selectedBtn2.substring(0, selectedBtn2.length - 1) != selectedBtn) {
+        if (selectedBtn.length > 0 && selectedBtn2.length > 0) {
+
+            switch (selectedBtn) {
+                case "aStar":
+                    aStarPlayer();
+                    span1.textContent = "aStar";
+                    break;
+                case "dijkstra":
+                    dijkstraPlayer();
+                    span1.textContent = "dijkstra";
+                    break;
+                case 'bfs':
+                    bfsPlayer();
+                    span1.textContent = "bfs";
+                    break;
+                case "dfs":
+                    dfsPlayer();
+                    span1.textContent = "dfs";
+                    break;
+            }
+            switch (selectedBtn2) {
+                case "aStar2":
+                    aStarPlayer();
+                    span2.textContent = "   aStar";
+                    break;
+                case "dijkstra2":
+                    dijkstraPlayer();
+                    span2.textContent = "   dijkstra2";
+                    break;
+                case 'bfs2':
+                    bfsPlayer();
+                    span2.textContent = "   bfs";
+
+                    break;
+                case "dfs2":
+                    dfsPlayer();
+                    span2.textContent = "   dfs";
+
+            }
+        } else {
+            finishAlgoB = false;
+            finishAlgoS = false;
+            finishAlgoDE = false;
+            finishAlgoD = false;
 
         }
     }
+    runBtn.style.fontSize = '12px'
+    runBtn.textContent = `${selectedBtn}  |  ${selectedBtn2}`;
 })
 gridMazeBtn.addEventListener('click', () => finishAlgoS = false);
-fastSpeed.addEventListener('click', () => delay_time = 8)
+fastSpeed.addEventListener('click', () => delay_time = 15)
 slowSpeed.addEventListener('click', () => delay_time = 50)
 gridMazeBtn.addEventListener('click', mazeBTPlayer);
 splitBtn.addEventListener('click', () => {
     if (splitBtbHasClicked) {
         splitBtbHasClicked = false;
+        stairMazeBtn.disabled = false;
     } else {
         splitBtbHasClicked = true;
         clearWall(sGrid1, sDGrid1);
         clearWall(sGrid2, sDGrid2);
+        stairMazeBtn.disabled = true;
     }
     clearWall(grid, divGrid);
 
@@ -277,8 +295,8 @@ splitBtn.addEventListener('click', () => {
     sContainer1.classList.toggle('unShow');
     sContainer2.classList.toggle('unShow');
     runBtn.classList.toggle('unShow');
-    span1.classList.toggle('unShow');
-    span2.classList.toggle('unShow');
+    // span1.classList.toggle('unShow');
+    // span2.classList.toggle('unShow');
     selectedBtn2 = '';
     selectedBtn = '';
     splitDijkstraClicked = false;
@@ -300,25 +318,18 @@ splitDijkstraBtn.addEventListener('click', () => {
     selectedBtn = '';
     splitDijkstraClicked = true;
     splitDijkstraClicked2 = false;
-    console.log('clicked')
     selectedBtn = 'dijkstra';
-    console.log(selectedBtn)
-
-    // dijkstraPlayer();
 });
 splitDijkstraBtn2.addEventListener('click', () => {
     selectedBtn2 = '';
     splitDijkstraClicked2 = true;
     splitDijkstraClicked1 = false;
-    console.log('clicked')
     selectedBtn2 = 'dijkstra2';
-    console.log(selectedBtn2)
-
-    // dijkstraPlayer();
 });
 splitBfs.addEventListener('click', () => {
     selectedBtn = '';
     splitBfsClicked = true;
+    splitBfsClicked2 = false;
     selectedBtn = 'bfs';
     console.log(selectedBtn)
     //bfsPlayer();
@@ -327,27 +338,16 @@ splitBfs.addEventListener('click', () => {
 splitDfsBtn.addEventListener('click', () => {
     selectedBtn = '';
     splitDfsClicked = true;
-
+    splitDfsClicked2 = false;
     selectedBtn = 'dfs';
     console.log(selectedBtn)
     // dfsPlayer();
 })
 splitBfs2.addEventListener('click', () => {
-    // console.log('tt')
     selectedBtn2 = '';
     splitBfsClicked2 = true;
-    // for (let i = 0; i < sGrid2.length; i++) {
-    //     for (let j = 0; j < sGrid2[0].length; j++) {
-    //         sGrid2[i][j].isVisited = false;
-
-    //     }
-
-    // }
+    splitBfsClicked = false;
     selectedBtn2 = 'bfs2';
-    console.log(selectedBtn2)
-
-    //   bfsPlayer();
-
 })
 splitAStarBtn2.addEventListener('click', () => {
     selectedBtn2 = '';
@@ -361,7 +361,6 @@ splitAStarBtn2.addEventListener('click', () => {
 splitDfsBtn2.addEventListener('click', () => {
     selectedBtn2 = '';
     splitDfsClicked2 = true;
-
     selectedBtn2 = 'dfs2';
     console.log(selectedBtn2)
     //dfsPlayer();
@@ -858,8 +857,24 @@ function clearWall(grid, divGrid) {
     }
     //console.log(divGrid);
 }
-function mazeNormal() {
+function mazeNPlayer() {
+    if (splitBtbHasClicked) {
+        mazeNormal(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv);
+    } else {
+        mazeNormal(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+    }
+}
+function mazeNormal(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     clearWall(grid, divGrid);
+
+    if (splitBtbHasClicked) {
+        clearWall(sGrid2, sDGrid2);
+        mazeComplixty /= 2;
+        cols /= 3;
+        // clearWall(sGrid2, sDGrid2);
+
+    }
+
     for (let i = 0; i < mazeComplixty; i++) {
         //console.log(i);
         var ii = randomRange(0, cols - 1);
@@ -872,10 +887,17 @@ function mazeNormal() {
         divGrid[ii][jj].className = 'block wDiv';
         startDiv.className = 'block start';
         endDiv.className = 'block end';
+        if (splitBtbHasClicked) {
+            sGrid2[ii][jj].wall = true;
+            sDGrid2[ii][jj].className = 'block wDiv';
+            sStartDiv2.className = 'block start'
+            sEndDiv2.className = 'block end';
+        }
         //}
         // }
 
     }
+    if (splitBtbHasClicked) { mazeComplixty *= 2; cols *= 3 }
 }
 function clearAlgo(grid, divGrid, startSpot, startDiv, endDiv) {
 
@@ -916,7 +938,7 @@ function clearAlgo(grid, divGrid, startSpot, startDiv, endDiv) {
     // });
     for (let i = 0; i < divGrid.length; i++) {
         for (let j = 0; j < grid[0].length; j++) {
-            console.log('test');
+
             if (divGrid[i][j].className.includes("w")) {
                 continue;
             } else {
@@ -1016,7 +1038,7 @@ function clearWallPlayer() {
 }
 function algoBtnsDisable() {
     var btns = document.querySelectorAll('.button');
-    console.log(btns);
+    //console.log(btns);
     btns.forEach(item => {
         item.disabled = true;
     })
@@ -1030,7 +1052,7 @@ function algoBtnsEnable() {
     window.setTimeout(() => {
         algoRunning = true;
         var btns = document.querySelectorAll('.button');
-        console.log(btns);
+        //console.log(btns);
         btns.forEach(item => {
             item.disabled = false;
         })
@@ -1068,9 +1090,10 @@ function aStarPlayer() {
         aStar(sGrid2, sDGrid2, sEndSpot, sStartSpot, sStartDiv2, sEndDiv2);
         splitAStarClicked2 = false;
     }
-    else
+    else {
         aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv);
-
+        algoDropBtn.textContent = "aStar";
+    }
     algoBtnsEnable();
 }
 function aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
@@ -1135,7 +1158,8 @@ function aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
 
         // }
         // /}
-
+        // if (closedSetD.length > 1)
+        //     renderDiv(currentDiv, 'block openSet', delay_time)
 
         // renderDiv(closedSetD[closedSetD.length - 1], 'block pathDiv', delay_time)
         // renderDiv(closedSetD[closedSetD.length - 1], 'block rDiv', delay_time)
@@ -1346,13 +1370,15 @@ function dijkstraPlayer() {
     algoBtnsDisable();
     if (splitDijkstraClicked) {
         dijkstra(sGrid1, sDGrid1, sStartSpot, sEndSpot, sStartDiv, sEndDiv); splitDijkstraBtn = false;
-
+        splitDijkstraClicked = false;
     }
     else if (splitDijkstraClicked2) {
         dijkstra(sGrid2, sDGrid2, sStartSpot, sEndSpot, sStartDiv2, sEndDiv2);
-    } else
+        splitDijkstraClicked2 = false;
+    } else {
         dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
-
+        algoDropBtn.textContent = "Dijkstra";
+    }
     algoBtnsEnable();
 }
 function dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
@@ -1574,9 +1600,11 @@ function bfsPlayer() {
         splitBfsClicked2 = false;
         splitBfsClicked = false;
     } else if (!splitBfsClicked2 || !splitBtbClicked) {
+
         splitBfsClicked2 = false;
         splitBfsClicked = false;
         bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
+        algoDropBtn.textContent = "Bfs";
     }
     algoBtnsEnable();
 }
@@ -1782,9 +1810,11 @@ function dfsPlayer() {
         splitDfsClicked = false;
     }
     else {
+
         dfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv);
         splitDfsClicked2 = false;
         splitDfsClicked = false;
+        algoDropBtn.textContent = "Dfs";
     }
     algoBtnsEnable();
 }
