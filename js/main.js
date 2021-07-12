@@ -69,8 +69,11 @@ if (x.matches) {
     cols = 21;
     rows = 12;
 }
-//var x2 = 
-
+// var x2 = window.matchMedia("(max-width: 1024px)");
+// if (x2.matches) {
+//     cols = 21;
+//     rows = 12;
+// }
 
 var grid = new Array(cols);
 
