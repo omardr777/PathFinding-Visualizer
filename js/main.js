@@ -64,22 +64,10 @@ var rows = 21;
 var delay = 0;
 var delay_time = 15;
 
-
-
-var x3 = window.matchMedia("(max-width: 1024px)");
-if (x3.matches) {
-    cols = 42;
-    rows = 21;
-}
-var x2 = window.matchMedia("(max-width: 800px)");
-if (x2.matches) {
-    cols = 42;
-    rows = 21;
-}
-var x = window.matchMedia("(max-width: 700px)");
+var x = window.matchMedia("(max-width: 900px)");
 if (x.matches) {
     cols = 21;
-    rows = 12;
+    rows = 12
 }
 
 
@@ -184,16 +172,12 @@ creatNeighbours(grid, cols, rows);
 //creatNeighbours(sGrid1, cols, rows);
 //creatNeighbours(sGrid2, cols, rows);
 //addingSAD(startDiv, endSpot, grid, startDiv, endDiv, divGrid);
-var sPlacei = Math.floor(grid.length / 4)
-var sPlacej = Math.floor(grid.length / 6);
-var ePlacei = Math.floor(grid.length * 0.75)
-var ePlacej = Math.floor(grid.length / 6);
-startSpot = grid[sPlacei][sPlacej];
-endSpot = grid[ePlacei][ePlacej];
+startSpot = grid[15][10];
+endSpot = grid[45][10];
 startSpot.wall = false;
 endSpot.wall = false;
-startDiv = divGrid[sPlacei][sPlacej];
-endDiv = divGrid[ePlacei][ePlacej];
+startDiv = divGrid[15][10];
+endDiv = divGrid[45][10];
 createGrid((cols / 3), rows, sGrid1, sDGrid1, sContainer1);
 createGrid((cols / 3), rows, sGrid2, sDGrid2, sContainer2);
 cols = cols / 3;
@@ -203,11 +187,11 @@ creatNeighbours(sGrid2, cols, rows);
 cols = cols * 3;
 //console.log(cols)
 sStartSpot = sGrid1[0][0];
-sEndSpot = sGrid1[(cols / 3) - 1][rows - 1];
+sEndSpot = sGrid1[(cols / 3) - 8][rows - 1];
 sStartDiv = sDGrid1[0][0];
-sEndDiv = sDGrid1[(cols / 3) - 1][rows - 1];
+sEndDiv = sDGrid1[(cols / 3) - 8][rows - 1];
 sStartDiv2 = sDGrid2[0][0];
-sEndDiv2 = sDGrid2[(cols / 3) - 1][rows - 1];
+sEndDiv2 = sDGrid2[(cols / 3) - 8][rows - 1];
 
 sStartDiv.className = 'block start';
 sEndDiv.className = 'block end';
@@ -2114,7 +2098,10 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
     let endAndStart = false;
     let startAndEnd = false;
     let ii, jj;
-
+    var sPlacei = Math.floor(grid.length / 4)
+    var sPlacej = Math.floor(grid.length / 6);
+    var ePlacei = Math.floor(grid.length * 0.75)
+    var ePlacej = Math.floor(grid.length / 6);
     if (!splitBtbHasClicked) {
 
         startSpot = grid[sPlacei][sPlacej];
