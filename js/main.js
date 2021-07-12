@@ -2430,4 +2430,90 @@ function biAstar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
   return neighbours;
 } */
 //test
+function GreedyBfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
+    for (let i = 0; i < grid.length; i++) {
+        for (let j = 0; j < grid[0].length; j++) {
+            grid.f = maxNumber;
+
+        }
+
+    }
+    // clearAlgo(grid, divGrid, startSpot, startDiv, endDiv);
+    //startSpot.isVisited = true;
+    startSpot.g = 0;
+    openSet.push(startSpot);
+    openSetD.push(startDiv);
+    while (openSet.length > 0) {
+        var lowestF = 0;
+        for (let i = 0; i < openSet.length; i++) {
+            if (openSet[i].f <= openSet[lowestF].f) {
+                lowestF = i;
+            }
+        }
+        var cur = openSet[lowestF];
+        let curDiv = openSetD[lowestF];
+        remove(openSet, cur);
+        remove(openSetD, curDiv);
+        //console.log(curDiv);
+        if (cur == endSpot) {
+            path = [];
+            divPath = [];
+            var tempCur = cur;
+            var tempCurDiv = curDiv;
+            path.push(tempCur);
+            divPath.push(tempCurDiv);
+            while (tempCur.previous) {
+                path.push(tempCur.previous);
+                divPath.push(divGrid[tempCur.previous.i][tempCur.previous.j]);
+                tempCur = tempCur.previous;
+            }
+
+            divPath.shift();
+            divPath.pop();
+            divPath.reverse();
+            break;
+        } else {
+            cur.isVisited = true;
+            colsedSet.push(cur);
+            closedSetD.push(curDiv);
+            var neighbours = cur.neighbors;
+            for (let i = 0; i < neighbours.length; i++) {
+                var neighbour = neighbours[i];
+                let tempG = neighbour.g + 1;
+                if (!openSet.includes(neighbour)) {
+                    openSet.unshift(neighbour);
+                    openSetD.push(divGrid[neighbour.i][neighbour.j]);
+                    neighbour.g = tempG;
+                    neighbour.f = dist(neighbour, endSpot);
+                    neighbour.previous = cur;
+                } else if (tempG < neighbour.g) {
+                    neighbour.g = tempG;
+                    neighbour.f = dist(neighbour, endSpot);
+                    neighbour.previous = cur;
+                }
+
+                // if (!neighbour.wall) {
+                //     if (!neighbour.isVisited) {
+                //         neighbour.isVisited = true;
+                //         neighbour.previous = cur;
+                //         openSet.push(neighbour);
+                //         openSetD.push(divGrid[neighbour.i][neighbour.j]);
+                //     }
+                // }
+            }
+        }
+        // colsedSet.shift();
+        // closedSetD.shift();
+        for (let i = 0; i < closedSetD.length; i++) {
+            //if (closedSetD[i].className == 'block start') {
+            //console.log("test");
+            renderDiv(closedSetD[i], 'block closedSet', delay_time);
+
+        }
+        for (let i = 0; i < divPath.length; i++) {
+            renderDiv(divPath[i], 'block pathDiv', delay_time);
+        }
+    }
+}
 //test
+// /GreedyBfs(grid,divGrid,startSpot,endSpot,startDiv,endDiv);
