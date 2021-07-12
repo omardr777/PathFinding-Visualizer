@@ -1,4 +1,6 @@
 //use delay to stop playing while running
+
+
 const maxNumber = Math.pow(10, 1000);
 const container = document.getElementById('container');
 const sContainer1 = document.getElementById("sContainer1");
@@ -64,6 +66,14 @@ var cols = 63;
 var rows = 21;
 var delay = 0;
 var delay_time = 15;
+
+var x = window.matchMedia("(max-width: 900px)");
+if (x.matches) {
+    cols = 21;
+    rows = 12
+}
+
+
 var grid = new Array(cols);
 
 var sStartSpot;
@@ -178,7 +188,7 @@ cols = cols / 3;
 creatNeighbours(sGrid1, cols, rows);
 creatNeighbours(sGrid2, cols, rows);
 cols = cols * 3;
-console.log(cols)
+//console.log(cols)
 sStartSpot = sGrid1[0][0];
 sEndSpot = sGrid1[(cols / 3) - 8][rows - 1];
 sStartDiv = sDGrid1[0][0];
@@ -224,9 +234,8 @@ runBtn.addEventListener('click', () => {
     finishAlgoS = false;
     finishAlgoDE = false;
     finishAlgoD = false;
-
-    if (selectedBtn2.substring(0, selectedBtn2.length - 1) != selectedBtn) {
-        if (selectedBtn.length > 0 && selectedBtn2.length > 0) {
+    if (selectedBtn.length > 0 && selectedBtn2.length > 0) {
+        if (selectedBtn2.substring(0, selectedBtn2.length - 1) != selectedBtn) {
 
             switch (selectedBtn) {
                 case "aStar":
@@ -271,10 +280,14 @@ runBtn.addEventListener('click', () => {
             finishAlgoDE = false;
             finishAlgoD = false;
 
-        }
+
+        } runBtn.style.fontSize = '12px'
+        runBtn.textContent = `${selectedBtn}  |  ${selectedBtn2}`;
+    } else {
+        runBtn.style.fontSize = '11px'
+        runBtn.textContent = "choose form L and R"
     }
-    runBtn.style.fontSize = '12px'
-    runBtn.textContent = `${selectedBtn}  |  ${selectedBtn2}`;
+
 })
 gridMazeBtn.addEventListener('click', () => finishAlgoS = false);
 fastSpeed.addEventListener('click', () => delay_time = 15)
@@ -307,6 +320,7 @@ splitBtn.addEventListener('click', () => {
     finishAlgoS = false;
     finishAlgoDE = false;
     finishAlgoD = false;
+    algoDropBtn.textContent = 'Algorithms'
 
 });
 splitAStarBtn.addEventListener('click', () => {
@@ -1076,6 +1090,7 @@ function algoBtnsEnable() {
         if (splitBtbHasClicked) {
             var algoBtn = document.getElementById('algoDropBtn');
             algoBtn.disabled = true;
+            stairMazeBtn.disabled = true;
         }
     }, delay += delay_time)
 
@@ -1419,7 +1434,6 @@ function dijkstra(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
             openSetD.push(divGrid[i][j]);
         }
     }
-    console.log(grid)
 
     // if (splitBtbHasClicked) {
     //     cols *= 3;
@@ -2014,6 +2028,10 @@ function mazeBTPlayer() {
     algoBtnsEnable();
 }
 function mazeBT(grid, divGrid, grid2, divGrid2) {
+    finishAlgoB = false;
+    finishAlgoS = false;
+    finishAlgoDE = false;
+    finishAlgoD = false;
     // startSpot = grid[0][0];
     // endSpot = grid[cols - 1][rows - 1];
     delay = 0;
@@ -2083,27 +2101,30 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
     let endAndStart = false;
     let startAndEnd = false;
     let ii, jj;
-
+    var sPlacei = Math.floor(grid.length / 4)
+    var sPlacej = Math.floor(grid.length / 6);
+    var ePlacei = Math.floor(grid.length * 0.75)
+    var ePlacej = Math.floor(grid.length / 6);
     if (!splitBtbHasClicked) {
 
-        startSpot = grid[15][10];
+        startSpot = grid[sPlacei][sPlacej];
         startSpot.wall = false;
-        startDiv = divGrid[15][10];
+        startDiv = divGrid[sPlacei][sPlacej];
         renderDiv(startDiv, 'block start', delay_time2);
-        endSpot = grid[45][10];
-        endDiv = divGrid[45][10];
+        endSpot = grid[ePlacei][ePlacej];
+        endDiv = divGrid[ePlacei][ePlacej];
         renderDiv(endDiv, 'block end', delay_time2);
         endSpot.wall = false;
     } else {
-        sStartSpot = grid[3][2];
+        sStartSpot = grid[sPlacei][sPlacej];
         sStartSpot.wall = false;
-        sStartDiv = divGrid[3][2];
-        sStartDiv2 = divGrid2[3][2];
+        sStartDiv = divGrid[sPlacei][sPlacej];
+        sStartDiv2 = divGrid2[sPlacei][sPlacej];
         renderDiv(sStartDiv, 'block start', delay_time2);
         renderDiv(sStartDiv2, 'block start', delay_time2);
-        sEndSpot = grid[15][2];
-        sEndDiv = divGrid[15][2];
-        sEndDiv2 = divGrid2[15][2];
+        sEndSpot = grid[ePlacei][ePlacej];
+        sEndDiv = divGrid[ePlacei][ePlacej];
+        sEndDiv2 = divGrid2[ePlacei][ePlacej];
         sEndSpot.wall = false;
         renderDiv(sEndDiv, 'block end', delay_time2);
         renderDiv(sEndDiv2, 'block end', delay_time2);
@@ -2123,6 +2144,10 @@ function primMazePlayer() {
     algoBtnsEnable();
 }
 function primMaze(grid, divGrid, grid2, divGrid2) {
+    finishAlgoB = false;
+    finishAlgoS = false;
+    finishAlgoDE = false;
+    finishAlgoD = false;
     delay = 0;
     var delay_time2 = 4;
     for (let i = 0; i < grid.length; ++i) {
@@ -2151,7 +2176,7 @@ function primMaze(grid, divGrid, grid2, divGrid2) {
         let rnd = Math.floor(Math.random() * frontierList.length);
         let batch = frontierList[rnd];
         frontierList.splice(rnd, 1);
-        console.log(batch);
+        //console.log(batch);
         let inBetween = batch[0];
         let frontier = batch[1];
 
@@ -2184,26 +2209,34 @@ function primMaze(grid, divGrid, grid2, divGrid2) {
 
 
     }
+    var sPlacei = Math.floor(grid.length / 4)
+    var sPlacej = Math.floor(grid.length / 6);
+    var ePlacei = Math.floor(grid.length * 0.75)
+    var ePlacej = Math.floor(grid.length / 6);
     if (!splitBtbHasClicked) {
 
-        startSpot = grid[15][10];
+        // startSpot = grid[15][10];
+        startSpot = grid[sPlacei][sPlacej];
         startSpot.wall = false;
-        startDiv = divGrid[15][10];
+        // startDiv = divGrid[15][10];
+        startDiv = divGrid[sPlacei][sPlacej];
         renderDiv(startDiv, 'block start', delay_time2);
-        endSpot = grid[45][10];
-        endDiv = divGrid[45][10];
+        // endSpot = grid[45][10];
+        // endDiv = divGrid[45][10];
+        endSpot = grid[ePlacei][ePlacej];
+        endDiv = divGrid[ePlacei][ePlacej];
         renderDiv(endDiv, 'block end', delay_time2);
         endSpot.wall = false;
     } else {
-        sStartSpot = grid[3][2];
+        sStartSpot = grid[sPlacei][sPlacej];
         sStartSpot.wall = false;
-        sStartDiv = divGrid[3][2];
-        sStartDiv2 = divGrid2[3][2];
+        sStartDiv = divGrid[sPlacei][sPlacej];
+        sStartDiv2 = divGrid2[sPlacei][sPlacej];
         renderDiv(sStartDiv, 'block start', delay_time2);
         renderDiv(sStartDiv2, 'block start', delay_time2);
-        sEndSpot = grid[15][2];
-        sEndDiv = divGrid[15][2];
-        sEndDiv2 = divGrid2[15][2];
+        sEndSpot = grid[ePlacei][ePlacej];
+        sEndDiv = divGrid[ePlacei][ePlacej];
+        sEndDiv2 = divGrid2[ePlacei][ePlacej];
         sEndSpot.wall = false;
         renderDiv(sEndDiv, 'block end', delay_time2);
         renderDiv(sEndDiv2, 'block end', delay_time2);
