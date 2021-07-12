@@ -172,12 +172,16 @@ creatNeighbours(grid, cols, rows);
 //creatNeighbours(sGrid1, cols, rows);
 //creatNeighbours(sGrid2, cols, rows);
 //addingSAD(startDiv, endSpot, grid, startDiv, endDiv, divGrid);
-startSpot = grid[15][10];
-endSpot = grid[45][10];
+var sPlacei = Math.floor(grid.length / 4)
+var sPlacej = Math.floor(grid.length / 6);
+var ePlacei = Math.floor(grid.length * 0.75)
+var ePlacej = Math.floor(grid.length / 6);
+startSpot = grid[sPlacei][sPlacej];
+endSpot = grid[ePlacei][ePlacej];
 startSpot.wall = false;
 endSpot.wall = false;
-startDiv = divGrid[15][10];
-endDiv = divGrid[45][10];
+startDiv = [sPlacei][sPlacej];
+endDiv = grid[ePlacei][ePlacej];
 createGrid((cols / 3), rows, sGrid1, sDGrid1, sContainer1);
 createGrid((cols / 3), rows, sGrid2, sDGrid2, sContainer2);
 cols = cols / 3;
@@ -2098,10 +2102,7 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
     let endAndStart = false;
     let startAndEnd = false;
     let ii, jj;
-    var sPlacei = Math.floor(grid.length / 4)
-    var sPlacej = Math.floor(grid.length / 6);
-    var ePlacei = Math.floor(grid.length * 0.75)
-    var ePlacej = Math.floor(grid.length / 6);
+
     if (!splitBtbHasClicked) {
 
         startSpot = grid[sPlacei][sPlacej];
