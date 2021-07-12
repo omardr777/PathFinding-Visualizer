@@ -22,6 +22,7 @@ body{
 .show {
     display: block;
 }
+
 .algoDropBtn{
     position: relative;
 }
@@ -176,7 +177,10 @@ nav{
   animation-play-state: running;
   
 }
-
+.openSet{
+  animation-name: openSet;
+  animation-duration: 0.4s; 
+}
 .wDiv{
   
   animation-name: stretchBlack;
@@ -358,5 +362,17 @@ nav{
     }
     100%{
       transform: scale(1);
+    }
+  }
+  @keyframes openSet {
+    0% {
+      
+      background-color: orange;
+      
+    }
+    100% {
+      
+      background-color: #49c6f0 ;
+
     }
   }

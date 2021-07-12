@@ -60,7 +60,7 @@ var selectedBtn2 = '';
 var cols = 63;
 var rows = 21;
 var delay = 0;
-var delay_time = 8;
+var delay_time = 10;
 var grid = new Array(cols);
 
 var sStartSpot;
@@ -217,42 +217,44 @@ dfsBtn.addEventListener('click', dfsPlayer);
 runBtn.addEventListener('click', () => {
     clearAlgo(sGrid1, sDGrid1, sStartSpot, sStartDiv, sEndDiv);
     clearAlgo(sGrid2, sDGrid2, sStartSpot, sStartDiv2, sEndDiv2);
-    switch (selectedBtn) {
-        case "aStar":
-            aStarPlayer();
-            span1.textContent = "aStar";
-            break;
-        case "dijkstra":
-            dijkstraPlayer();
-            span1.textContent = "dijkstra";
-            break;
-        case 'bfs':
-            bfsPlayer();
-            span1.textContent = "bfs";
-            break;
-        case "dfs":
-            dfsPlayer();
-            span1.textContent = "dfs";
-            break;
-    }
-    switch (selectedBtn2) {
-        case "aStar2":
-            aStarPlayer();
-            span2.textContent = "   aStar";
-            break;
-        case "dijkstra2":
-            dijkstraPlayer();
-            span2.textContent = "   dijkstra2";
-            break;
-        case 'bfs2':
-            bfsPlayer();
-            span2.textContent = "   bfs";
+    if (selectedBtn.length > 0 && selectedBtn2.length > 0) {
+        switch (selectedBtn) {
+            case "aStar":
+                aStarPlayer();
+                span1.textContent = "aStar";
+                break;
+            case "dijkstra":
+                dijkstraPlayer();
+                span1.textContent = "dijkstra";
+                break;
+            case 'bfs':
+                bfsPlayer();
+                span1.textContent = "bfs";
+                break;
+            case "dfs":
+                dfsPlayer();
+                span1.textContent = "dfs";
+                break;
+        }
+        switch (selectedBtn2) {
+            case "aStar2":
+                aStarPlayer();
+                span2.textContent = "   aStar";
+                break;
+            case "dijkstra2":
+                dijkstraPlayer();
+                span2.textContent = "   dijkstra2";
+                break;
+            case 'bfs2':
+                bfsPlayer();
+                span2.textContent = "   bfs";
 
-            break;
-        case "dfs2":
-            dfsPlayer();
-            span2.textContent = "   dfs";
+                break;
+            case "dfs2":
+                dfsPlayer();
+                span2.textContent = "   dfs";
 
+        }
     }
 })
 gridMazeBtn.addEventListener('click', () => finishAlgoS = false);
@@ -264,8 +266,11 @@ splitBtn.addEventListener('click', () => {
         splitBtbHasClicked = false;
     } else {
         splitBtbHasClicked = true;
+        clearWall(sGrid1, sDGrid1);
+        clearWall(sGrid2, sDGrid2);
     }
     clearWall(grid, divGrid);
+
     algoDropBtn.disabled = splitBtbHasClicked;
     container.classList.toggle('unShow');
     splitContainer.classList.toggle('unShow');
@@ -277,6 +282,10 @@ splitBtn.addEventListener('click', () => {
     selectedBtn2 = '';
     selectedBtn = '';
     splitDijkstraClicked = false;
+    finishAlgoB = false;
+    finishAlgoS = false;
+    finishAlgoDE = false;
+    finishAlgoD = false;
 
 });
 splitAStarBtn.addEventListener('click', () => {
@@ -1029,6 +1038,10 @@ function algoBtnsEnable() {
         blocks2.forEach(item => {
             item.style.pointerEvents = "auto";
         })
+        if (splitBtbHasClicked) {
+            var algoBtn = document.getElementById('algoDropBtn');
+            algoBtn.disabled = true;
+        }
     }, delay += delay_time)
 
 
@@ -1115,6 +1128,15 @@ function aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
             break;
         }
 
+        //if (!closedSetD[i].className == 'block start') {
+        // if (closedSetD.length > 1) {
+        //     renderDiv(closedSetD[closedSetD.length - 1], 'block openSet', delay_time);
+        //     // renderDiv(closedSetD[closedSetD.length - 1], 'block closedSet', delay_time);
+
+        // }
+        // /}
+
+
         // renderDiv(closedSetD[closedSetD.length - 1], 'block pathDiv', delay_time)
         // renderDiv(closedSetD[closedSetD.length - 1], 'block rDiv', delay_time)
         // renderDiv(openSetD[openSetD.length - 1], 'block rDiv', delay_time)
@@ -1180,6 +1202,7 @@ function aStar(grid, divGrid, endSpot, startSpot, startDiv, endDiv) {
     }
     //rendering
     closedSetD.shift();
+
     for (let i = 0; i < closedSetD.length; i++) {
         //if (!closedSetD[i].className == 'block start') {
 
@@ -1628,25 +1651,26 @@ function bfs(grid, divGrid, startSpot, endSpot, startDiv, endDiv) {
     //closedSetD.pop();
     //console.log(closedSetD);
     //rendering
-    if (finishAlgoB) {
-        for (let i = 0; i < closedSetD.length; i++) {
-            closedSetD[i].className = 'block closedSetT';
-        }
-        for (let i = 0; i < divPath.length; i++) {
-            divPath[i].className = 'block pathDivT';
-        }
-    }
-    else {
-        for (let i = 0; i < closedSetD.length; i++) {
-            //if (closedSetD[i].className == 'block start') {
-            //console.log("test");
-            renderDiv(closedSetD[i], 'block closedSet', delay_time);
+    // if (finishAlgoB) {
+    //     for (let i = 0; i < closedSetD.length; i++) {
+    //         closedSetD[i].className = 'block closedSetT';
+    //     }
+    //     for (let i = 0; i < divPath.length; i++) {
+    //         divPath[i].className = 'block pathDivT';
+    //     }
+    // }
+    // else {
 
-        }
-        for (let i = 0; i < divPath.length; i++) {
-            renderDiv(divPath[i], 'block pathDiv', delay_time);
-        }
+    for (let i = 0; i < closedSetD.length; i++) {
+        //if (closedSetD[i].className == 'block start') {
+        //console.log("test");
+        renderDiv(closedSetD[i], 'block closedSet', delay_time);
+
     }
+    for (let i = 0; i < divPath.length; i++) {
+        renderDiv(divPath[i], 'block pathDiv', delay_time);
+    }
+    // }
     finishAlgoB = true;
     for (let i = 0; i < grid.length; i++) {
         for (let j = 0; j < grid[0].length; j++) {
