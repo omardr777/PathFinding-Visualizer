@@ -18,32 +18,44 @@
 
 <body>
     <nav>
-
-        <div class="btn-container">
-            <button id="algoDropBtn" class="button algoDropBtn" onclick="myFunction()"> Algorithms </button>
-            <div class="algoContent" id="algoContentId">
-                <button id="aStarBtn" class='button btnAlgo'>A*</button>
-                <button id="dijkstraBtn" class='button btnAlgo'>Dijkstra</button>
-                <button id="bfsBtn" class='button btnAlgo'>BFS</button>
-                <button id="dfsBtn" class='button btnAlgo'>DFS</button>
+        <div class="top">
+            <div style="display: inline-block;">
+                <h1 style=" color: white; margin:auto 20px;">PathFinding Visualizer</h1>
             </div>
-            <button id="gridMazeBtn" class='button'>Backtracker maze</button>
-            <button id="primMazeBtn" class='button'>primMazeBtn</button>
-            <button id="mazeBtn" class='button'>maze</button>
-            <button id="stairMazeBtn" class='button'>stair maze</button>
-            <button id="splitBtn" class='button'>compare</button>
-            <button id="clearBtn" class='button'>clear path</button>
-            <button id="clearWallBtn" class='button'>clear wall</button>
-            <button id="speedBtn" class='button algoDropBtn' onclick="myFunction2()">speed</button>
+            <div class="btn-container">
+                <div style="display: inline-block;">
+                    <button id="algoDropBtn" class="button algoDropBtn" onclick="myFunction()"> Algorithms </button>
+                    <div class="algoContent" id="algoContentId">
+                        <button id="aStarBtn" class='button btnAlgo'>A*</button>
+                        <button id="dijkstraBtn" class='button btnAlgo'>Dijkstra</button>
+                        <button id="bfsBtn" class='button btnAlgo'>BFS</button>
+                        <button id="dfsBtn" class='button btnAlgo'>DFS</button>
+                    </div>
+                </div>
 
-            <div class="algoContent" id="speedConten">
-                <button class="button btnAlgo" id="fastSpeed">fast</button>
-                <button class="button btnAlgo" id="slowSpeed">slow</button>
+                <div style="display: inline-block;">
+                    <button id="maze" class="button algoDropBtn">Maze</button>
+                    <div class="algoContent" id="mazeContent">
+                        <button id="gridMazeBtn" class='button btnAlgo'>Backtracker maze</button>
+                        <button id="primMazeBtn" class='button btnAlgo'>primMazeBtn</button>
+                        <button id="mazeBtn" class='button btnAlgo'>maze</button>
+                        <button id="stairMazeBtn" class='button btnAlgo'>stair maze</button>
+                    </div>
+                </div>
+                <button id="splitBtn" class='button'>compare</button>
+                <button id="clearBtn" class='button'>clear path</button>
+                <button id="clearWallBtn" class='button'>clear wall</button>
+                <div style="display: inline-block;">
+                    <button id="speedBtn" class='button algoDropBtn' onclick="myFunction2()">speed</button>
+                    <div class="algoContent" id="speedConten">
+                        <button class="button btnAlgo" id="fastSpeed">fast</button>
+                        <button class="button btnAlgo" id="slowSpeed">slow</button>
+                    </div>
+                </div>
+
+
+
             </div>
-
-
-
-
         </div>
         <div class="keyContainer">
             <div style="height: fit-content; display: inline-block;" class="viewer">

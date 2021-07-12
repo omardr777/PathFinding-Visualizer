@@ -30,6 +30,7 @@ var span1 = document.getElementById('span1');
 var span2 = document.getElementById('span2');
 var primMazeBtn = document.getElementById('primMazeBtn');
 var root = document.documentElement;
+var maze = document.getElementById('maze');
 
 var splitBtbHasClicked = false;
 var splitAStarClicked = false;
@@ -203,6 +204,10 @@ clearBtn.addEventListener('click', () => {
     }
 
 });
+maze.addEventListener('click', () => {
+    var list = document.getElementById('mazeContent');
+    list.classList.toggle('show');
+})
 mazeBtn.addEventListener('click', mazeNormal);
 stairMazeBtn.addEventListener('click', stairMazrPlayer);
 clearWallBtn.addEventListener('click', clearWallPlayer);
@@ -803,6 +808,8 @@ function myFunction() {
 function myFunction2() {
     console.log('speed');
     document.getElementById("speedConten").classList.toggle('show');
+} function myFunction3() {
+    document.getElementById("mazeContent").classList.toggle('show');
 }
 function runAlgo(algo) {
     if (algo == 'wall') {

@@ -25,10 +25,15 @@ body{
 .algoDropBtn{
     position: relative;
 }
-
-#speedConten{
-  position: relative;
+.top{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  align-content: center;
+  justify-content: flex-end;
+  align-items: center;
 }
+
 .button:hover,.button:focus {
             background-color: #ff8800;
     }
@@ -106,6 +111,7 @@ nav{
 .btn-container{
     width: fit-content;
     margin: auto;
+    display: inline-block;
 }
 .block{
     border: 1px solid #42c6d8;
