@@ -67,7 +67,7 @@ var delay_time = 15;
 var x = window.matchMedia("(max-width: 900px)");
 if (x.matches) {
     cols = 21;
-    rows = 12
+    rows = 21;
 }
 
 
@@ -191,11 +191,11 @@ creatNeighbours(sGrid2, cols, rows);
 cols = cols * 3;
 //console.log(cols)
 sStartSpot = sGrid1[0][0];
-sEndSpot = sGrid1[(cols / 3) - 8][rows - 1];
+sEndSpot = sGrid1[(cols / 3) - 1][rows - 1];
 sStartDiv = sDGrid1[0][0];
-sEndDiv = sDGrid1[(cols / 3) - 8][rows - 1];
+sEndDiv = sDGrid1[(cols / 3) - 1][rows - 1];
 sStartDiv2 = sDGrid2[0][0];
-sEndDiv2 = sDGrid2[(cols / 3) - 8][rows - 1];
+sEndDiv2 = sDGrid2[(cols / 3) - 1][rows - 1];
 
 sStartDiv.className = 'block start';
 sEndDiv.className = 'block end';
