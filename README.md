@@ -2,10 +2,10 @@
 Beta? hmm..
 project to visualize some Graph algorithms:-
 * Pathfinding algoritms
- * AStar algoritm
- * Dijkstra
- * Breadth-first search
- * Depth-first search
+  * AStar algoritm
+  * Dijkstra
+  * Breadth-first search
+  * Depth-first search
  
 * Random Maze
   * BackTracking (animated and realTime) *from https://github.com/hisham-maged10/path-finder
