@@ -31,6 +31,9 @@ var span2 = document.getElementById('span2');
 var primMazeBtn = document.getElementById('primMazeBtn');
 var root = document.documentElement;
 var maze = document.getElementById('maze');
+var backTrackingMazeBtnRT = document.getElementById('gridMazeBtnRT');
+var primMazeBtnRT = document.getElementById('primMazeBtnRT');
+var realTimeEnable = false;
 
 var splitBtbHasClicked = false;
 var splitAStarClicked = false;
@@ -368,6 +371,16 @@ splitDfsBtn2.addEventListener('click', () => {
 primMazeBtn.addEventListener('click', () => {
     primMazePlayer();
 });
+backTrackingMazeBtnRT.addEventListener('click', () => {
+    realTimeEnable = true;
+    mazeBTPlayer();
+    realTimeEnable = false;
+})
+primMazeBtnRT.addEventListener('click', () => {
+    realTimeEnable = true;
+    primMazePlayer();
+    realTimeEnable = false;
+})
 /*
 // splitAStarBtn.addEventListener('click', () => {
 //     splitAStarClicked = true;
@@ -2039,14 +2052,24 @@ function mazeBT(grid, divGrid, grid2, divGrid2) {
         let inBetween = batch[0];
         frontier.wall = false;
         inBetween.wall = false;
-        renderDiv(divGrid[frontier.i][frontier.j], 'block sDiv', delay_time2);
-        renderDiv(divGrid[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
+        if (!realTimeEnable) {
+            renderDiv(divGrid[frontier.i][frontier.j], 'block sDiv', delay_time2);
+            renderDiv(divGrid[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
+        } else {
+            divGrid[frontier.i][frontier.j].className = 'block rDiv';
+            divGrid[inBetween.i][inBetween.j].className = 'block rDiv';
+        }
         if (splitBtbHasClicked) {
             divGrid2[cell.i][cell.j].className = 'block rDiv';
             grid2[frontier.i][frontier.j].wall = false;
             grid2[inBetween.i][inBetween.j].wall = false;
-            renderDiv(divGrid2[frontier.i][frontier.j], 'block sDiv', delay_time);
-            renderDiv(divGrid2[inBetween.i][inBetween.j], 'block sDiv', delay_time);
+            if (!realTimeEnable) {
+                renderDiv(divGrid2[frontier.i][frontier.j], 'block sDiv', delay_time2);
+                renderDiv(divGrid2[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
+            } else {
+                divGrid2[frontier.i][frontier.j].className = 'block rDiv';
+                divGrid2[inBetween.i][inBetween.j].className = 'block rDiv';
+            }
         }
 
         neighboursFM = neighboursForMaze(grid, frontier, choices);
@@ -2135,15 +2158,26 @@ function primMaze(grid, divGrid, grid2, divGrid2) {
         if (frontier.wall) {
             frontier.wall = false;
             inBetween.wall = false;
-            renderDiv(divGrid[frontier.i][frontier.j], 'block sDiv', delay_time2);
-            renderDiv(divGrid[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
+
+            if (!realTimeEnable) {
+                renderDiv(divGrid[frontier.i][frontier.j], 'block sDiv', delay_time2);
+                renderDiv(divGrid[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
+            } else {
+                divGrid[frontier.i][frontier.j].className = 'block rDiv';
+                divGrid[inBetween.i][inBetween.j].className = 'block rDiv';
+            }
             neighboursForMazePrim(grid, frontierList, frontier, choices);
             if (splitBtbHasClicked) {
                 divGrid2[cell.i][cell.j].className = 'block rDiv';
                 grid2[frontier.i][frontier.j].wall = false;
                 grid2[inBetween.i][inBetween.j].wall = false;
-                renderDiv(divGrid2[frontier.i][frontier.j], 'block sDiv', delay_time);
-                renderDiv(divGrid2[inBetween.i][inBetween.j], 'block sDiv', delay_time);
+                if (!realTimeEnable) {
+                    renderDiv(divGrid2[frontier.i][frontier.j], 'block sDiv', delay_time2);
+                    renderDiv(divGrid2[inBetween.i][inBetween.j], 'block sDiv', delay_time2);
+                } else {
+                    divGrid2[frontier.i][frontier.j].className = 'block rDiv';
+                    divGrid2[inBetween.i][inBetween.j].className = 'block rDiv';
+                }
             }
         }
 
