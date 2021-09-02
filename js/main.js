@@ -1,3 +1,7 @@
+for (let i = 0; i < 63; i++) {
+    console.log(`${i} is`);
+    i += 2;
+}
 const maxNumber = Math.pow(10, 1000);
 const container = document.getElementById('container');
 const sContainer1 = document.getElementById("sContainer1");
@@ -48,28 +52,34 @@ var selectedBtn2 = '';
 
 
 
-/*
-//var splitBtn = document.getElementById("splitBtn");
-//var algoDropBtn = document.getElementById('algoDropBtn');
-//var splitAStarBtn = document.getElementById('splitAStar');
-//var splitAStarBtn2 = document.getElementById('splitAStar2');
-//var splitBfs2 = document.getElementById('splitBfs2');
-//var splitDijkstraBtn = document.getElementById('splitDijkstra');
-//var splitAStarClicked = false;
-//var splitAStarClicked2 = false;
-//var splitDijkstraClicked = false;
-//var splitBfsClicked2 = false;*/
+
 var cols = 63;
 var rows = 21;
 var delay = 0;
 var delay_time = 15;
 
-var x = window.matchMedia("(max-width: 900px)");
+
+var x2 = window.matchMedia("(max-width: 600px)");
+var x = window.matchMedia("(max-width: 450px)"); var x3 = window.matchMedia("(max-width: 1200px)"); var x4 = window.matchMedia("(max-width: 1920)");
 if (x.matches) {
     cols = 21;
-    rows = 12
+    rows = 12;
 }
 
+else if (x2.matches) {
+    cols = 33;
+    rows = 15;
+}
+else if (x3.matches) {
+    cols = 54;
+    rows = 18;
+}
+
+else if (x4.matches) {
+    cols = 99;
+    rows = 35;
+    console.log('99')
+}
 
 var grid = new Array(cols);
 
@@ -114,7 +124,14 @@ var divPath = [];
 var finished = false;
 
 var timeToEdit = 0;
-
+var sPlacei = Math.floor(grid.length / 4)
+var sPlacej = Math.floor(grid.length / 6);
+var ePlacei = Math.floor(grid.length * 0.75)
+var ePlacej = Math.floor(grid.length / 6);
+console.log(sPlacei);
+console.log(sPlacej);
+console.log(ePlacei);
+console.log(ePlacej);
 function Spot(i, j) {
     this.i = i;
     this.j = j;
@@ -172,12 +189,17 @@ creatNeighbours(grid, cols, rows);
 //creatNeighbours(sGrid1, cols, rows);
 //creatNeighbours(sGrid2, cols, rows);
 //addingSAD(startDiv, endSpot, grid, startDiv, endDiv, divGrid);
-startSpot = grid[15][10];
-endSpot = grid[45][10];
+startSpot = grid[sPlacei][sPlacej];
+endSpot = grid[ePlacei][ePlacej];
+startDiv = divGrid[sPlacei][sPlacej];
+endDiv = divGrid[ePlacei][ePlacej];
+console.log(startDiv);
+// startSpot = grid[15][10];
+// endSpot = grid[45][10];
 startSpot.wall = false;
 endSpot.wall = false;
-startDiv = divGrid[15][10];
-endDiv = divGrid[45][10];
+// startDiv = divGrid[15][10];
+// endDiv = divGrid[45][10];
 createGrid((cols / 3), rows, sGrid1, sDGrid1, sContainer1);
 createGrid((cols / 3), rows, sGrid2, sDGrid2, sContainer2);
 cols = cols / 3;
@@ -187,11 +209,11 @@ creatNeighbours(sGrid2, cols, rows);
 cols = cols * 3;
 //console.log(cols)
 sStartSpot = sGrid1[0][0];
-sEndSpot = sGrid1[(cols / 3) - 8][rows - 1];
+sEndSpot = sGrid1[(cols / 3) - 1][rows - 1];
 sStartDiv = sDGrid1[0][0];
-sEndDiv = sDGrid1[(cols / 3) - 8][rows - 1];
+sEndDiv = sDGrid1[(cols / 3) - 1][rows - 1];
 sStartDiv2 = sDGrid2[0][0];
-sEndDiv2 = sDGrid2[(cols / 3) - 8][rows - 1];
+sEndDiv2 = sDGrid2[(cols / 3) - 1][rows - 1];
 
 sStartDiv.className = 'block start';
 sEndDiv.className = 'block end';

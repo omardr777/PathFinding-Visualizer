@@ -371,6 +371,13 @@ nav {
     --size: 14px;
     --size2: 16px;
   }
+  nav {
+    height: 20px;
+  }
+  .button {
+    height: 10px;
+    font-size: 5px;
+  }
 }
 
 @media only screen and (max-width: 425px) {
