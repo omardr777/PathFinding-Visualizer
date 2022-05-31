@@ -372,11 +372,11 @@ nav {
     --size2: 16px;
   }
   nav {
-    height: 20px;
+    height: fit-content;
   }
   .button {
-    height: 10px;
-    font-size: 5px;
+    height: 2rem;
+    font-size: 1rem;
   }
 }
 
