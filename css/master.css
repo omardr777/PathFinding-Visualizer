@@ -371,9 +371,6 @@ nav {
     --size: 14px;
     --size2: 16px;
   }
-  nav {
-    height: fit-content;
-  }
   .button {
     height: 2rem;
     font-size: 1rem;
